@@ -1,7 +1,13 @@
 let canvas;
-let char = new Image();
+let ctx;
+let world;
 
-function startLandingPage() {
+function init() {
   canvas = document.getElementById("gameCanvas");
-  char.src = "../assets/char/lvl_1/shadow/idle/idle-0.png";
+  ctx = canvas.getContext("2d");
+
+  // Erstelle die Welt erst hier, nachdem alle Klassen geladen sind
+  world = new World();
+
+  console.log("My Character: ", world.char);
 }
