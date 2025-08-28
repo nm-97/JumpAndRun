@@ -1,8 +1,9 @@
 class World {
   ctx;
   canvas;
-  char = new char_lvl1();
+  char = new char();
   enemy = [new goblin()];
+  level;
   background = [
     new backgroundLayer(
       "../assets/tileSets/oak_woods_v1.0/background/layerOne.png"
@@ -18,12 +19,14 @@ class World {
   constructor(canvas) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
+    this.level = new lvl(canvas);
     this.draw();
   }
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.addObjectsToMap(this.background);
+    this.level.draw();
     this.addToMap(this.char);
     this.addObjectsToMap(this.enemy);
 
