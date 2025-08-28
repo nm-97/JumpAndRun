@@ -1,9 +1,11 @@
 class World {
   ctx;
   canvas;
+  keyboard;
   char = new char();
   enemy = [new goblin()];
   level;
+  world;
   background = [
     new backgroundLayer(
       "../assets/tileSets/oak_woods_v1.0/background/layerOne.png"
@@ -16,11 +18,18 @@ class World {
     ),
   ];
 
-  constructor(canvas) {
+  constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.level = new lvl(canvas);
+    this.keyboard = keyboard;
     this.draw();
+    this.setWorld();
+  }
+
+  setWorld() {
+    this.char.world = this;
+    this.char.keyboard = this.keyboard;
   }
 
   draw() {
