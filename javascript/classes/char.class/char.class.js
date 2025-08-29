@@ -1,9 +1,10 @@
 class char extends MoveableObject {
-  y = 550 - this.height;
+  y = 480 - this.height;
   speed = 30;
   jumpSpeed = 3;
   isJumping = false;
-  jumpCounter = 0;
+  acceleration = 1;
+  speedY = 0;
   otherDirection = false;
 
   img_idle = [
@@ -74,6 +75,16 @@ class char extends MoveableObject {
     this.animate();
     this.walk();
     this.jump();
+    this.applyGravity();
+  }
+
+  applyGravity() {
+    setInterval(() => {
+      if (this.y < 50) {
+        this.y -= this.speedY;
+        this.speedY -= this.acceleration;
+      }
+    }, 1000 / 60);
   }
 
   walk() {
@@ -101,21 +112,5 @@ class char extends MoveableObject {
     }, 1000 / 60);
   }
 
-  jump() {
-    setInterval(() => {
-      if (this.world.keyboard.Space && !this.isJumping) {
-        this.isJumping = true;
-        this.jumpCounter = 0;
-      }
-      if (this.isJumping) {
-        this.jumpCounter++;
-        this.y += this.jumpCounter <= 15 ? -this.jumpSpeed : this.jumpSpeed;
-        let i = Math.floor(this.jumpCounter / 2) % this.img_jump.length;
-        this.img = this.imageCache[this.img_jump[i]];
-        if (this.jumpCounter >= 30) {
-          this.isJumping = false;
-        }
-      }
-    }, 1000 / 60);
-  }
+  jump() {}
 }
