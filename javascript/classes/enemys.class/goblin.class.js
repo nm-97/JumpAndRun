@@ -1,11 +1,12 @@
 class goblin extends MoveableObject {
   y = 610 - this.height;
+  speed = 1;
+
   img_idle = [
     "../assets/enemy/enemyOne/Goblin2/idle/idle-1.png",
     "../assets/enemy/enemyOne/Goblin2/idle/idle-2.png",
     "../assets/enemy/enemyOne/Goblin2/idle/idle-3.png",
   ];
-  currentFrame = 0;
 
   constructor() {
     super();
@@ -14,16 +15,17 @@ class goblin extends MoveableObject {
     this.animate();
     this.speed = 1 + Math.random() * 3;
     this.x = 200 + Math.random() * 400;
+    this.startAI();
   }
 
-  animate() {
-    this.moveLeft();
-
+  startAI() {
     setInterval(() => {
-      let i = this.currentFrame % this.img_idle.length;
-      let path = this.img_idle[i];
-      this.img = this.charImageCache[path];
-      this.currentFrame++;
-    }, 9000 / 60);
+      this.aiLogic();
+    }, 100);
+  }
+
+  aiLogic() {
+    this.isMoving = true;
+    this.moveLeft();
   }
 }

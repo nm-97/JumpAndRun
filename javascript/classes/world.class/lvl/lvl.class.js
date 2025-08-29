@@ -25,8 +25,8 @@ class lvl {
   }
 
   createGroundTiles() {
-    const tiles = new Array(16);
-    for (let i = 0; i < 16; i++) {
+    const tiles = new Array(160); // 160 * 64 = 10240px (doppelte Länge)
+    for (let i = 0; i < 160; i++) {
       tiles[i] = new GroundTile(i * 64, 550);
     }
     return tiles;

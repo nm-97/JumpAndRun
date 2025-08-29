@@ -6,18 +6,10 @@ class World {
   enemy = [new goblin()];
   level;
   world;
-  background = [
-    new backgroundLayer(
-      "../assets/tileSets/oak_woods_v1.0/background/layerOne.png"
-    ),
-    new backgroundLayer(
-      "../assets/tileSets/oak_woods_v1.0/background/layerTwo.png"
-    ),
-    new backgroundLayer(
-      "../assets/tileSets/oak_woods_v1.0/background/layerThree.png"
-    ),
-  ];
+  camera_x = 0;
+  camera_y = 0;
 
+  background = BackgroundManager.createRepeatingBackground();
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
@@ -34,11 +26,12 @@ class World {
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.translate(this.camera_x, this.camera_y);
     this.addObjectsToMap(this.background);
     this.level.draw();
     this.addToMap(this.char);
     this.addObjectsToMap(this.enemy);
-
+    this.ctx.translate(-this.camera_x, -this.camera_y);
     requestAnimationFrame(this.draw.bind(this));
   }
 
@@ -49,6 +42,12 @@ class World {
   }
 
   addToMap(MoveableObject) {
+    if (MoveableObject.otherDirection) {
+      this.ctx.save();
+      this.ctx.translate(MoveableObject.width, 0);
+      this.ctx.scale(-1, 1);
+      MoveableObject.x = MoveableObject.x * -1;
+    }
     this.ctx.drawImage(
       MoveableObject.img,
       MoveableObject.x,
@@ -56,5 +55,9 @@ class World {
       MoveableObject.width,
       MoveableObject.height
     );
+    if (MoveableObject.otherDirection) {
+      MoveableObject.x = MoveableObject.x * -1;
+      this.ctx.restore();
+    }
   }
 }

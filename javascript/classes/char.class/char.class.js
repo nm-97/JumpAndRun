@@ -1,5 +1,11 @@
 class char extends MoveableObject {
   y = 550 - this.height;
+  speed = 30;
+  jumpSpeed = 3;
+  isJumping = false;
+  jumpCounter = 0;
+  otherDirection = false;
+
   img_idle = [
     "../assets/char/idle/idle-1.png",
     "../assets/char/idle/idle-2.png",
@@ -7,7 +13,7 @@ class char extends MoveableObject {
     "../assets/char/idle/idle-4.png",
   ];
 
-  img_Run_Right = [
+  img_walk = [
     "../assets/char/run/run-1.png",
     "../assets/char/run/run-2.png",
     "../assets/char/run/run-3.png",
@@ -61,71 +67,55 @@ class char extends MoveableObject {
     super();
     this.loadImage("../assets/char/idle/idle-0.png");
     this.loadImages(this.img_idle);
-    this.loadImages(this.img_Run_Right);
+    this.loadImages(this.img_walk);
     this.loadImages(this.img_jump);
     this.loadImages(this.img_attack);
     this.loadImages(this.img_death);
-    this.animateIdle();
-    this.animateDeath();
-    this.animateAttack();
-    this.animateWalkRight();
-    this.animateJump();
+    this.animate();
+    this.walk();
+    this.jump();
+  }
+
+  walk() {
+    setInterval(() => {
+      if (this.world.keyboard.KeyD) {
+        this.x += this.speed;
+        this.otherDirection = false;
+      }
+      if (this.world.keyboard.KeyA) {
+        this.x -= this.speed;
+        this.otherDirection = true;
+      }
+      this.world.camera_x = -this.x;
+    }, 1000 / 60);
+
+    setInterval(() => {
+      if (this.world.keyboard.KeyD || this.world.keyboard.KeyA) {
+        let i = this.currentFrame % this.img_walk.length;
+        let path = this.img_walk[i];
+        if (this.imageCache[path]) {
+          this.img = this.imageCache[path];
+          this.currentFrame++;
+        }
+      }
+    }, 1000 / 60);
   }
 
   jump() {
-    // Implement jump logic here
-  }
-
-  animateDeath() {
     setInterval(() => {
-      if (this.world.keyboard.Enter) {
-        let i = this.currentFrame % this.img_death.length;
-        let path = this.img_death[i];
-        this.img = this.charImageCache[path];
-        this.currentFrame++;
+      if (this.world.keyboard.Space && !this.isJumping) {
+        this.isJumping = true;
+        this.jumpCounter = 0;
       }
-    }, 8000 / 60);
-  }
-
-  animateAttack() {
-    setInterval(() => {
-      if (this.world.keyboard.KeyF) {
-        let i = this.currentFrame % this.img_attack.length;
-        let path = this.img_attack[i];
-        this.img = this.charImageCache[path];
-        this.currentFrame++;
+      if (this.isJumping) {
+        this.jumpCounter++;
+        this.y += this.jumpCounter <= 15 ? -this.jumpSpeed : this.jumpSpeed;
+        let i = Math.floor(this.jumpCounter / 2) % this.img_jump.length;
+        this.img = this.imageCache[this.img_jump[i]];
+        if (this.jumpCounter >= 30) {
+          this.isJumping = false;
+        }
       }
-    }, 8000 / 60);
-  }
-
-  animateJump() {
-    setInterval(() => {
-      if (this.world.keyboard.Space) {
-        let i = this.currentFrame % this.img_jump.length;
-        let path = this.img_jump[i];
-        this.img = this.charImageCache[path];
-        this.currentFrame++;
-      }
-    }, 8000 / 60);
-  }
-
-  animateWalkRight() {
-    setInterval(() => {
-      if (this.world.keyboard.KeyD) {
-        let i = this.currentFrame % this.img_Run_Right.length;
-        let path = this.img_Run_Right[i];
-        this.img = this.charImageCache[path];
-        this.currentFrame++;
-      }
-    }, 8000 / 60);
-  }
-
-  animateIdle() {
-    setInterval(() => {
-      let i = this.currentFrame % this.img_idle.length;
-      let path = this.img_idle[i];
-      this.img = this.charImageCache[path];
-      this.currentFrame++;
-    }, 8000 / 60);
+    }, 1000 / 60);
   }
 }
