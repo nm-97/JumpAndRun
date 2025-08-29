@@ -1,22 +1,18 @@
 class World {
-  ctx;
-  canvas;
-  keyboard;
-  char = new char();
-  enemy = [new goblin()];
-  level;
-  world;
   camera_x = 0;
   camera_y = 0;
 
-  background = BackgroundManager.createRepeatingBackground();
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
-    this.level = new lvl(canvas);
+    this.level = new lvl(this.ctx);
+    this.enemies = this.level.getEnemies();
+    this.background = this.level.getBackground();
+    this.endboss = this.level.getEndboss();
     this.keyboard = keyboard;
-    this.draw();
+    this.char = new char();
     this.setWorld();
+    this.draw();
   }
 
   setWorld() {
@@ -28,9 +24,10 @@ class World {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.camera_x, this.camera_y);
     this.addObjectsToMap(this.background);
-    this.level.draw();
+    this.addObjectsToMap(this.level.getAllTiles());
     this.addToMap(this.char);
-    this.addObjectsToMap(this.enemy);
+    this.addObjectsToMap(this.enemies);
+    this.addToMap(this.endboss);
     this.ctx.translate(-this.camera_x, -this.camera_y);
     requestAnimationFrame(this.draw.bind(this));
   }

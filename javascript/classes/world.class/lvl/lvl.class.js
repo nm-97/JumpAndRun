@@ -1,50 +1,72 @@
 class lvl {
+  currentLevel;
   ctx;
-  canvas;
 
-  groundTiles = this.createGroundTiles();
-
-  // platformTiles = [
-  //   new PlatformTile(400, 320),
-  //   new PlatformTile(432, 320),
-  //   new PlatformTile(464, 320),
-  //   new PlatformTile(600, 380),
-  //   new PlatformTile(632, 380),
-  //   new PlatformTile(664, 380),
-  //   new PlatformTile(696, 380),
-  // ];
-
-  // decorationTiles = [
-  //   new DecorationTile(800, 450),
-  //   new DecorationTile(832, 450),
-  // ];
-
-  constructor(canvas) {
-    this.canvas = canvas;
-    this.ctx = canvas.getContext("2d");
+  constructor(ctx) {
+    this.ctx = ctx;
+    this.currentLevel = new levelOne();
   }
 
-  createGroundTiles() {
-    const tiles = new Array(160); // 160 * 64 = 10240px (doppelte Länge)
-    for (let i = 0; i < 160; i++) {
-      tiles[i] = new GroundTile(i * 64, 550);
-    }
-    return tiles;
-  }
-
+  // MAIN DRAW METHOD
   draw() {
-    this.drawAllGroundTiles(this.groundTiles);
-    // this.drawAllPlatformTiles(this.platformTiles);
-    // this.drawAllDecorationTiles(this.decorationTiles);
+    this.drawBackground();
+    this.drawAllTiles();
+    this.drawEnemies();
   }
 
-  drawAllGroundTiles(tiles) {
-    tiles.forEach((tile) => {
-      this.drawSingleTile(tile);
+  // BACKGROUND DRAWING
+  drawBackground() {
+    const backgrounds = this.currentLevel.getBackground();
+    backgrounds.forEach((bg) => {
+      this.drawObject(bg);
     });
   }
 
-  drawSingleTile(tile) {
-    this.ctx.drawImage(tile.img, tile.x, tile.y, tile.width, tile.height);
+  // TILES DRAWING
+  drawAllTiles() {
+    const tiles = this.currentLevel.getAllTiles();
+    tiles.forEach((tile) => {
+      this.drawObject(tile);
+    });
+  }
+
+  // ENEMIES DRAWING
+  drawEnemies() {
+    const enemies = this.currentLevel.getEnemies();
+    enemies.forEach((enemy) => {
+      this.drawObject(enemy);
+    });
+  }
+
+  // UNIVERSAL OBJECT DRAWING
+  drawObject(obj) {
+    if (obj.otherDirection) {
+      this.ctx.save();
+      this.ctx.translate(obj.width, 0);
+      this.ctx.scale(-1, 1);
+      obj.x = obj.x * -1;
+    }
+    this.ctx.drawImage(obj.img, obj.x, obj.y, obj.width, obj.height);
+    if (obj.otherDirection) {
+      obj.x = obj.x * -1;
+      this.ctx.restore();
+    }
+  }
+
+  // DATA ACCESS METHODS
+  getAllTiles() {
+    return this.currentLevel.getAllTiles();
+  }
+
+  getBackground() {
+    return this.currentLevel.getBackground();
+  }
+
+  getEnemies() {
+    return this.currentLevel.getEnemies();
+  }
+
+  getEndboss() {
+    return this.currentLevel.getEndboss();
   }
 }
