@@ -5,6 +5,7 @@ class endboss extends MoveableObject {
   width = 360;
 
   img_idle = [
+    "../assets/enemy/endoss/endboss_2/idle/Demon3_Idle_without_shadow-0.png",
     "../assets/enemy/endoss/endboss_2/idle/Demon3_Idle_without_shadow-1.png",
     "../assets/enemy/endoss/endboss_2/idle/Demon3_Idle_without_shadow-2.png",
     "../assets/enemy/endoss/endboss_2/idle/Demon3_Idle_without_shadow-3.png",
@@ -17,8 +18,6 @@ class endboss extends MoveableObject {
     );
     this.loadImages(this.img_idle);
     this.animate();
-    this.attack();
-    this.hurt();
     this.speed = 1 + Math.random() * 3;
     this.x = 200 + Math.random() * 400;
   }

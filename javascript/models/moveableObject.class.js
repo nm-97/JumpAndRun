@@ -4,10 +4,11 @@ class MoveableObject {
   img;
   height = 160;
   width = 160;
-  imageCache = [];
+  imageCache = {};
   currentFrame = 0;
   speed = 2;
   energy = 1;
+  deathAnimationComplete = false;
 
   isMoving = false;
   isAttacking = false;
@@ -19,13 +20,8 @@ class MoveableObject {
   img_attack = [];
   img_death = [];
   img_hurt = [];
-
-  animate() {
-    this.idle();
-    this.hurt();
-    this.death();
-    this.attack();
-  }
+  img_jump = [];
+  otherDirection = false;
 
   takeDamage(amount) {
     this.energy -= amount;
@@ -63,67 +59,40 @@ class MoveableObject {
     );
   }
 
-  idle() {
-    setInterval(() => {
-      if (this.img_idle.length > 0) {
-        let i = this.currentFrame % this.img_idle.length;
-        let path = this.img_idle[i];
-        if (this.imageCache[path]) {
-          this.img = this.imageCache[path];
-          this.currentFrame++;
-        }
+  playAnimation(imageArray, speed = 150) {
+    if (imageArray && imageArray.length > 0) {
+      let i = this.currentFrame % imageArray.length;
+      let path = imageArray[i];
+      if (this.imageCache[path]) {
+        this.img = this.imageCache[path];
+        this.currentFrame++;
       }
-    }, 150);
+    }
   }
 
-  walk() {
-    setInterval(() => {
-      if (this.isMoving && this.img_walk.length > 0) {
-        let i = this.currentFrame % this.img_walk.length;
-        let path = this.img_walk[i];
-        if (this.imageCache[path]) {
-          this.img = this.imageCache[path];
-          this.currentFrame++;
+  animate() {
+    if (this.animationInterval) {
+      clearInterval(this.animationInterval);
+    }
+    this.animationInterval = setInterval(() => {
+      if (this.isDead) {
+        if (this.deathAnimationComplete) {
+          return;
         }
-      }
-    }, 100);
-  }
-
-  attack() {
-    setInterval(() => {
-      if (this.isAttacking && this.img_attack.length > 0) {
-        let i = this.currentFrame % this.img_attack.length;
-        let path = this.img_attack[i];
-        if (this.imageCache[path]) {
-          this.img = this.imageCache[path];
-          this.currentFrame++;
+        this.playAnimation(this.img_death);
+        if (this.currentFrame >= this.img_death.length) {
+          this.deathAnimationComplete = true;
         }
-      }
-    }, 120);
-  }
-
-  death() {
-    setInterval(() => {
-      if (this.isDead && this.img_death.length > 0) {
-        let i = this.currentFrame % this.img_death.length;
-        let path = this.img_death[i];
-        if (this.imageCache[path]) {
-          this.img = this.imageCache[path];
-          this.currentFrame++;
-        }
-      }
-    }, 150);
-  }
-
-  hurt() {
-    setInterval(() => {
-      if (this.isHurt === true && this.img_hurt.length > 0) {
-        let i = this.currentFrame % this.img_hurt.length;
-        let path = this.img_hurt[i];
-        if (this.imageCache[path]) {
-          this.img = this.imageCache[path];
-          this.currentFrame++;
-        }
+      } else if (this.isHurt) {
+        this.playAnimation(this.img_hurt);
+      } else if (this.isAttacking) {
+        this.playAnimation(this.img_attack, 120);
+      } else if (this.isJumping) {
+        this.playAnimation(this.img_jump, 100);
+      } else if (this.isMoving) {
+        this.playAnimation(this.img_walk, 100);
+      } else {
+        this.playAnimation(this.img_idle);
       }
     }, 8000 / 60);
   }

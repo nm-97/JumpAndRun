@@ -3,6 +3,7 @@ class goblin extends MoveableObject {
   speed = 1;
 
   img_idle = [
+    "../assets/enemy/enemyOne/Goblin2/idle/idle-0.png",
     "../assets/enemy/enemyOne/Goblin2/idle/idle-1.png",
     "../assets/enemy/enemyOne/Goblin2/idle/idle-2.png",
     "../assets/enemy/enemyOne/Goblin2/idle/idle-3.png",
