@@ -97,6 +97,7 @@ class char extends MoveableObject {
     setInterval(() => {
       if (this.world && this.world.keyboard) {
         this.handleInput();
+        this.handleJump();
         this.updateCamera();
       }
     }, 1000 / 60);
@@ -104,14 +105,6 @@ class char extends MoveableObject {
 
   handleInput() {
     this.isMoving = false;
-
-    // Debug: Prüfe ob Tasten erkannt werden
-    if (this.world.keyboard.KeyD || this.world.keyboard.KeyA) {
-      console.log("Taste gedrückt:", {
-        KeyD: this.world.keyboard.KeyD,
-        KeyA: this.world.keyboard.KeyA,
-      });
-    }
 
     if (this.world.keyboard.KeyD && this.x < 9216) {
       this.x += this.speed;
@@ -127,18 +120,20 @@ class char extends MoveableObject {
       this.isJumping = true;
       this.jumpCounter = 0;
     }
+    if (this.world.keyboard.KeyF) {
+      this.isAttacking = true;
+    } else {
+      this.isAttacking = false;
+    }
+  }
+
+  handleJump() {
     if (this.isJumping) {
       this.jumpCounter++;
       this.y += this.jumpCounter <= 15 ? -this.jumpSpeed : this.jumpSpeed;
       if (this.jumpCounter >= 30) {
         this.isJumping = false;
       }
-    }
-  }
-
-  updateCamera() {
-    if (this.world) {
-      this.world.camera_x = -this.x + 100;
     }
   }
 }

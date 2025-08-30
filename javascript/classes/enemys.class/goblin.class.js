@@ -13,9 +13,9 @@ class goblin extends MoveableObject {
     super();
     this.loadImage("../assets/enemy/enemyOne/Goblin2/idle/idle-0.png");
     this.loadImages(this.img_idle);
-    this.animate();
     this.speed = 1 + Math.random() * 3;
     this.x = 200 + Math.random() * 400;
+    this.animate();
     this.startAI();
   }
 
@@ -26,7 +26,7 @@ class goblin extends MoveableObject {
   }
 
   aiLogic() {
-    this.isMoving = true;
+    this.isMoving = false;
     this.moveLeft();
   }
 }

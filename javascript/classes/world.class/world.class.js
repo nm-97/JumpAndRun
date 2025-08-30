@@ -1,6 +1,7 @@
 class World {
   camera_x = 0;
   camera_y = 0;
+  statusBar = new statusBar();
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -30,6 +31,7 @@ class World {
     this.addToMap(this.endboss);
     this.checkCollisions();
     this.ctx.translate(-this.camera_x, -this.camera_y);
+    this.addToMap(this.statusBar);
     requestAnimationFrame(this.draw.bind(this));
   }
 
@@ -39,7 +41,8 @@ class World {
       this.enemies.forEach((enemy) => {
         if (this.char.isColliding(enemy)) {
           this.char.isHurt = true;
-          this.char.takeDamage(5);
+          this.char.takeDamage(1);
+          this.statusBar.setHearts(this.char.energy);
           isColliding = true;
         }
       });
