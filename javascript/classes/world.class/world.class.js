@@ -28,8 +28,25 @@ class World {
     this.addToMap(this.char);
     this.addObjectsToMap(this.enemies);
     this.addToMap(this.endboss);
+    this.checkCollisions();
     this.ctx.translate(-this.camera_x, -this.camera_y);
     requestAnimationFrame(this.draw.bind(this));
+  }
+
+  checkCollisions() {
+    setInterval(() => {
+      let isColliding = false;
+      this.enemies.forEach((enemy) => {
+        if (this.char.isColliding(enemy)) {
+          this.char.isHurt = true;
+          this.char.takeDamage(5);
+          isColliding = true;
+        }
+      });
+      if (!isColliding) {
+        this.char.isHurt = false;
+      }
+    }, 8000 / 60);
   }
 
   addObjectsToMap(Objects) {
@@ -45,13 +62,8 @@ class World {
       this.ctx.scale(-1, 1);
       MoveableObject.x = MoveableObject.x * -1;
     }
-    this.ctx.drawImage(
-      MoveableObject.img,
-      MoveableObject.x,
-      MoveableObject.y,
-      MoveableObject.width,
-      MoveableObject.height
-    );
+    MoveableObject.draw(this.ctx);
+    MoveableObject.drawFrame(this.ctx);
     if (MoveableObject.otherDirection) {
       MoveableObject.x = MoveableObject.x * -1;
       this.ctx.restore();

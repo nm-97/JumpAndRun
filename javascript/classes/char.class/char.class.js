@@ -65,6 +65,14 @@ class char extends MoveableObject {
     "../assets/char/death/death-11.png",
   ];
 
+  img_hurt = [
+    "../assets/char/death/death-1.png",
+    "../assets/char/death/death-2.png",
+    "../assets/char/death/death-3.png",
+    "../assets/char/death/death-2.png",
+    "../assets/char/death/death-1.png",
+  ];
+
   constructor() {
     super();
     this.loadImage("../assets/char/idle/idle-0.png");
@@ -76,6 +84,8 @@ class char extends MoveableObject {
     this.animate();
     this.walk();
     this.jump();
+    this.death();
+    this.hurt();
     this.applyGravity();
   }
 
@@ -115,9 +125,6 @@ class char extends MoveableObject {
     }, 1000 / 60);
   }
 
-<<<<<<< HEAD
-  jump() {}
-=======
   jump() {
     setInterval(() => {
       if (this.world.keyboard.Space && !this.isJumping) {
@@ -135,5 +142,4 @@ class char extends MoveableObject {
       }
     }, 1000 / 60);
   }
->>>>>>> feba7f516d0f5cb010c0a6a6aebf5801193bffc1
 }

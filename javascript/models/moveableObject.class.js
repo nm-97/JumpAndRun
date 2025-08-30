@@ -7,6 +7,7 @@ class MoveableObject {
   imageCache = [];
   currentFrame = 0;
   speed = 2;
+  energy = 1;
 
   isMoving = false;
   isAttacking = false;
@@ -24,6 +25,42 @@ class MoveableObject {
     this.hurt();
     this.death();
     this.attack();
+  }
+
+  takeDamage(amount) {
+    this.energy -= amount;
+    if (this.energy <= 0) {
+      this.energy = 0;
+      this.isDead = true;
+    }
+  }
+
+  draw(ctx) {
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+  }
+
+  drawFrame(ctx) {
+    if (
+      this instanceof char ||
+      this instanceof goblin ||
+      this instanceof endboss ||
+      this instanceof PlatformTile
+    ) {
+      ctx.beginPath();
+      ctx.lineWidth = "1";
+      ctx.strokeStyle = "blue";
+      ctx.rect(this.x, this.y, this.width, this.height);
+      ctx.stroke();
+    }
+  }
+
+  isColliding(MoveableObject) {
+    return (
+      this.x < MoveableObject.x + MoveableObject.width &&
+      this.x + this.width > MoveableObject.x &&
+      this.y < MoveableObject.y + MoveableObject.height &&
+      this.y + this.height > MoveableObject.y
+    );
   }
 
   idle() {
@@ -80,7 +117,7 @@ class MoveableObject {
 
   hurt() {
     setInterval(() => {
-      if (this.isHurt && this.img_hurt.length > 0) {
+      if (this.isHurt === true && this.img_hurt.length > 0) {
         let i = this.currentFrame % this.img_hurt.length;
         let path = this.img_hurt[i];
         if (this.imageCache[path]) {
@@ -88,7 +125,7 @@ class MoveableObject {
           this.currentFrame++;
         }
       }
-    }, 100);
+    }, 8000 / 60);
   }
 
   loadImage(path) {
