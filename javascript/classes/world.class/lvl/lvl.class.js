@@ -7,14 +7,12 @@ class lvl {
     this.currentLevel = new levelOne();
   }
 
-  // MAIN DRAW METHOD
   draw() {
     this.drawBackground();
     this.drawAllTiles();
     this.drawEnemies();
   }
 
-  // BACKGROUND DRAWING
   drawBackground() {
     const backgrounds = this.currentLevel.getBackground();
     backgrounds.forEach((bg) => {
@@ -22,7 +20,6 @@ class lvl {
     });
   }
 
-  // TILES DRAWING
   drawAllTiles() {
     const tiles = this.currentLevel.getAllTiles();
     tiles.forEach((tile) => {
@@ -30,7 +27,6 @@ class lvl {
     });
   }
 
-  // ENEMIES DRAWING
   drawEnemies() {
     const enemies = this.currentLevel.getEnemies();
     enemies.forEach((enemy) => {
@@ -38,7 +34,6 @@ class lvl {
     });
   }
 
-  // UNIVERSAL OBJECT DRAWING
   drawObject(obj) {
     if (obj.otherDirection) {
       this.ctx.save();
@@ -53,7 +48,6 @@ class lvl {
     }
   }
 
-  // DATA ACCESS METHODS
   getAllTiles() {
     return this.currentLevel.getAllTiles();
   }

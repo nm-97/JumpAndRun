@@ -4,28 +4,13 @@ class lvl {
 
   groundTiles = this.createGroundTiles();
 
-  // platformTiles = [
-  //   new PlatformTile(400, 320),
-  //   new PlatformTile(432, 320),
-  //   new PlatformTile(464, 320),
-  //   new PlatformTile(600, 380),
-  //   new PlatformTile(632, 380),
-  //   new PlatformTile(664, 380),
-  //   new PlatformTile(696, 380),
-  // ];
-
-  // decorationTiles = [
-  //   new DecorationTile(800, 450),
-  //   new DecorationTile(832, 450),
-  // ];
-
   constructor(canvas) {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
   }
 
   createGroundTiles() {
-    const tiles = new Array(160); // 160 * 64 = 10240px (doppelte Länge)
+    const tiles = new Array(160);
     for (let i = 0; i < 160; i++) {
       tiles[i] = new GroundTile(i * 64, 550);
     }
@@ -34,8 +19,6 @@ class lvl {
 
   draw() {
     this.drawAllGroundTiles(this.groundTiles);
-    // this.drawAllPlatformTiles(this.platformTiles);
-    // this.drawAllDecorationTiles(this.decorationTiles);
   }
 
   drawAllGroundTiles(tiles) {
