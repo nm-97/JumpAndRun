@@ -12,6 +12,8 @@ function init() {
   console.log("My Character: ", world.char);
 }
 
+sasd; //
+
 window.addEventListener("keydown", (e) => {
   switch (e.code) {
     case "KeyA":
