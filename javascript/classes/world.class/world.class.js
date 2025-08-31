@@ -2,7 +2,8 @@ class World {
   camera_x = 0;
   camera_y = 0;
   statusBar = new statusBar();
-  audio = new AudioManager();
+  backgroundMusic = new BackgroundMusic();
+  soundEffects = new SoundEffects();
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -13,8 +14,8 @@ class World {
     this.endboss = this.level.getEndboss();
     this.keyboard = keyboard;
     this.char = new char();
-    this.audio.canvas = this.canvas;
-    this.audio.setupCanvasClickHandler();
+    this.backgroundMusic.canvas = this.canvas;
+    this.backgroundMusic.setupCanvasClickHandler();
     this.setWorld();
     this.draw();
   }

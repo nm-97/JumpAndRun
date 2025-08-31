@@ -3,24 +3,16 @@ class AudioManager {
   currentAudio = null;
   musicStarted = false;
 
-  constructor() {
-    this.backgroundMusic = new BackgroundMusic();
-    this.soundEffects = new SoundEffects();
-
-    this.loadMusic(this.backgroundMusic.music_level1);
-    this.loadMusic(this.backgroundMusic.music_boss);
-    this.loadSounds(this.soundEffects.sounds_jump);
-    this.loadSounds(this.soundEffects.sounds_hurt);
-    this.loadSounds(this.soundEffects.sounds_coin);
-    this.loadSounds(this.soundEffects.sounds_attack);
-  }
+  constructor() {}
 
   setupCanvasClickHandler() {
     if (this.canvas) {
       this.canvas.addEventListener("click", () => {
         if (!this.musicStarted) {
-          this.playMusic(this.backgroundMusic.music_level1);
-          this.musicStarted = true;
+          if (this.music_level1) {
+            this.playMusic(this.music_level1);
+            this.musicStarted = true;
+          }
         }
       });
     }
