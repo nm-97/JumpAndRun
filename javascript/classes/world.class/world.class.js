@@ -8,13 +8,12 @@ class World {
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
-    this.level = new lvl(this.ctx);
+    this.level = new levelOne();
     this.enemies = this.level.getEnemies();
     this.background = this.level.getBackground();
     this.endboss = this.level.getEndboss();
     this.keyboard = keyboard;
     this.char = new char();
-    this.backgroundMusic.canvas = this.canvas;
     this.backgroundMusic.setupCanvasClickHandler();
     this.setWorld();
     this.draw();
