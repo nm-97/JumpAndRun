@@ -1,8 +1,24 @@
 class LevelManager {
-  static createGroundTiles() {
+  static createGroundTiles(
+    count = 160,
+    startX = 0,
+    startY = 550,
+    width = 64,
+    height = 64
+  ) {
     const tiles = [];
-    for (let i = 0; i < 160; i++) {
-      tiles.push(new GroundTile(i * 64, 550));
+    for (let i = 0; i < count; i++) {
+      const tile = new GroundTile(startX + i * width, startY, width, height);
+      tiles.push(tile);
+    }
+    return tiles;
+  }
+
+  static createFourGroundTileGroup(startX, startY, width = 64, height = 64) {
+    const tiles = [];
+    for (let i = 0; i < 4; i++) {
+      const tile = new GroundTile(startX + i * width, startY, width, height);
+      tiles.push(tile);
     }
     return tiles;
   }

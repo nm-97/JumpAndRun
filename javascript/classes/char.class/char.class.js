@@ -1,13 +1,15 @@
 class char extends MoveableObject {
   y = 550 - this.height;
-  speed = 15;
-  jumpSpeed = 3;
+  speed = 10;
+  jumpSpeed = 13;
   isJumping = false;
   jumpCounter = 0;
-  acceleration = 1;
-  speedY = 0;
   otherDirection = false;
   animationSpeed = 4;
+  isOnGround = true;
+  groundY = 550 - this.height;
+  velocityY = 0;
+  gravity = 0.5;
 
   img_idle = [
     "../assets/char/idle/idle-0.png",
@@ -97,7 +99,7 @@ class char extends MoveableObject {
     setInterval(() => {
       if (this.world && this.world.keyboard) {
         this.handleInput();
-        this.handleJump();
+        this.handlePhysics();
         this.updateCamera();
       }
     }, 1000 / 60);
@@ -109,31 +111,88 @@ class char extends MoveableObject {
     if (this.world.keyboard.KeyD && this.x < 9216) {
       this.x += this.speed;
       this.otherDirection = false;
-      this.isMoving = true;
+      this.isMoving = this.isOnGround;
     }
     if (this.world.keyboard.KeyA && this.x > 120) {
       this.x -= this.speed;
       this.otherDirection = true;
-      this.isMoving = true;
+      this.isMoving = this.isOnGround;
     }
-    if (this.world.keyboard.Space && !this.isJumping) {
+
+    if (this.world.keyboard.Space && this.isOnGround) {
+      this.velocityY = -this.jumpSpeed;
+      this.isOnGround = false;
       this.isJumping = true;
-      this.jumpCounter = 0;
     }
-    if (this.world.keyboard.KeyF) {
-      this.isAttacking = true;
-    } else {
-      this.isAttacking = false;
+
+    this.isAttacking = this.world.keyboard.KeyF;
+  }
+
+  handlePhysics() {
+    if (!this.isOnGround) {
+      this.velocityY += this.gravity;
+    }
+    this.y += this.velocityY;
+    if (this.y >= 550 - this.height) {
+      this.y = 550 - this.height;
+      this.isOnGround = true;
+      this.isJumping = false;
+      this.velocityY = 0;
+    }
+    this.checkPlatformLanding();
+    this.checkPlatformFalling();
+  }
+
+  checkPlatformLanding() {
+    if (!this.world?.level || this.velocityY <= 0) return;
+    const platforms = this.world.level.getAllTiles();
+    platforms.forEach((platform) => {
+      if (
+        this.isAbovePlatform(platform) &&
+        this.isLandingOnPlatform(platform)
+      ) {
+        this.landOnPlatform(platform);
+      }
+    });
+  }
+
+  checkPlatformFalling() {
+    if (!this.isOnGround || this.y >= 550 - this.height) return;
+    const platforms = this.world.level.getAllTiles();
+    const stillOnPlatform = platforms.some((platform) =>
+      this.isStandingOnPlatform(platform)
+    );
+    if (!stillOnPlatform) {
+      this.isOnGround = false;
+      this.isJumping = true;
     }
   }
 
-  handleJump() {
-    if (this.isJumping) {
-      this.jumpCounter++;
-      this.y += this.jumpCounter <= 15 ? -this.jumpSpeed : this.jumpSpeed;
-      if (this.jumpCounter >= 30) {
-        this.isJumping = false;
-      }
-    }
+  isAbovePlatform(platform) {
+    return (
+      this.x < platform.x + platform.width && this.x + this.width > platform.x
+    );
+  }
+
+  isLandingOnPlatform(platform) {
+    return (
+      this.y + this.height >= platform.y &&
+      this.y + this.height <= platform.y + 10
+    );
+  }
+
+  isStandingOnPlatform(platform) {
+    return (
+      this.x + this.width > platform.x &&
+      this.x < platform.x + platform.width &&
+      Math.abs(this.y + this.height - platform.y) < 5
+    );
+  }
+
+  landOnPlatform(platform) {
+    this.y = platform.y - this.height;
+    this.isOnGround = true;
+    this.isJumping = false;
+    this.velocityY = 0;
   }
 }

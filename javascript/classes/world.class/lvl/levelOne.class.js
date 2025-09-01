@@ -1,7 +1,7 @@
 class levelOne {
   constructor() {
     this.background = BackgroundManager.createRepeatingBackground();
-    this.groundTiles = LevelManager.createGroundTiles();
+    this.groundTiles = this.createGroundTiles();
     this.platformTiles = this.createPlatformTiles();
     this.decorationTiles = this.createDecorationTiles();
     this.coins = this.createCoins();
@@ -22,9 +22,24 @@ class levelOne {
 
   createPlatformTiles() {
     return [
-      ...LevelManager.createThreePlatformGroup(400, 400),
-      ...LevelManager.createFourPlatformGroup(600, 350),
+      ...LevelManager.createThreePlatformGroup(500, 400),
+      ...LevelManager.createFourPlatformGroup(650, 350),
       ...LevelManager.createThreePlatformGroup(800, 300),
+    ];
+  }
+
+  createGroundTiles() {
+    return [
+      ...LevelManager.createFourGroundTileGroup(0, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(250, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(500, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(750, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(1125, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(1250, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(1500, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(1750, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(2000, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(2250, 550, 64, 64),
     ];
   }
 
