@@ -69,7 +69,6 @@ class World {
       MoveableObject.x = MoveableObject.x * -1;
     }
     MoveableObject.draw(this.ctx);
-    MoveableObject.drawFrame(this.ctx);
     if (MoveableObject.otherDirection) {
       MoveableObject.x = MoveableObject.x * -1;
       this.ctx.restore();
