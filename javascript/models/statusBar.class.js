@@ -1,51 +1,48 @@
 class statusBar extends drawableObject {
   img_health = [
-    "../assets/GUI/Pixel Game UI/Assets/Heart_3.png",
-    "../assets/GUI/Pixel Game UI/Assets/Heart_2.png",
-    "../assets/GUI/Pixel Game UI/Assets/Heart.png",
+    "../assets/healthbar/healing/LifeBar-0.png",
+    "../assets/healthbar/healing/LifeBar-1.png",
+    "../assets/healthbar/healing/LifeBar-2.png",
+    "../assets/healthbar/healing/LifeBar-3.png",
+    "../assets/healthbar/healing/LifeBar-4.png",
+    "../assets/healthbar/healing/LifeBar-5.png",
+    "../assets/healthbar/healing/LifeBar-6.png",
+    "../assets/healthbar/healing/LifeBar-7.png",
+    "../assets/healthbar/healing/LifeBar-8.png",
   ];
 
   constructor() {
     super();
     this.loadImages(this.img_health);
-    this.hearts = 6;
-    this.y = 20;
-    this.x = 20;
-    this.height = 40;
-    this.width = 40;
-    this.heartSpacing = 50;
+    this.maxHealth = 8;
+    this.currentHealth = 8;
+    this.y = 30;
+    this.x = 30;
+    this.height = 60;
+    this.width = 200;
   }
 
-  setHearts(hearts) {
-    this.hearts = hearts;
+  setHealth(health) {
+    this.currentHealth = Math.max(0, Math.min(health, this.maxHealth));
+  }
+
+  getHealthPercentage() {
+    return (this.currentHealth / this.maxHealth) * 100;
+  }
+
+  getHealthImageIndex() {
+    return Math.max(
+      0,
+      Math.min(this.currentHealth, this.img_health.length - 1)
+    );
   }
 
   draw(ctx) {
-    for (let i = 0; i < 3; i++) {
-      let heartState = this.getHeartState(i);
-      let heartImg = this.imageCache[this.img_health[heartState]];
+    let imageIndex = this.getHealthImageIndex();
+    let healthImg = this.imageCache[this.img_health[imageIndex]];
 
-      if (heartImg) {
-        ctx.drawImage(
-          heartImg,
-          this.x + i * this.heartSpacing,
-          this.y,
-          this.width,
-          this.height
-        );
-      }
-    }
-  }
-
-  getHeartState(heartIndex) {
-    let heartsLeft = this.hearts - heartIndex * 2;
-
-    if (heartsLeft >= 2) {
-      return 2;
-    } else if (heartsLeft == 1) {
-      return 1;
-    } else {
-      return 0;
+    if (healthImg && healthImg.complete && healthImg.naturalHeight !== 0) {
+      ctx.drawImage(healthImg, this.x, this.y, this.width, this.height);
     }
   }
 }

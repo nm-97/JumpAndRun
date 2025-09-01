@@ -1,6 +1,6 @@
 class MoveableObject extends drawableObject {
   speed = 2;
-  energy = 6;
+  energy = 8;
   deathAnimationComplete = false;
   lastHurtTime = 1;
 

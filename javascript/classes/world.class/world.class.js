@@ -43,14 +43,24 @@ class World {
       let isColliding = false;
       this.enemies.forEach((enemy) => {
         if (this.char.isColliding(enemy)) {
-          this.char.isHurt = true;
-          this.char.takeDamage(1);
-          this.statusBar.setHearts(this.char.energy);
+          // Check if character is not in immunity period
+          let timePassed = new Date().getTime() - this.char.lastHurtTime;
+          let canTakeDamage = timePassed > 1750; // 1.75 seconds immunity
+
+          if (canTakeDamage) {
+            this.char.isHurt = true;
+            this.char.takeDamage(1);
+            this.statusBar.setHealth(this.char.energy);
+          }
           isColliding = true;
         }
       });
+      // Reset hurt animation flag only if not colliding and immunity period is over
       if (!isColliding) {
-        this.char.isHurt = false;
+        let timePassed = new Date().getTime() - this.char.lastHurtTime;
+        if (timePassed > 1750) {
+          this.char.isHurt = false;
+        }
       }
     }, 8000 / 60);
   }

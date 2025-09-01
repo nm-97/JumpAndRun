@@ -1,7 +1,7 @@
 class char extends MoveableObject {
   y = 550 - this.height;
-  speed = 10;
-  jumpSpeed = 13;
+  speed = 8;
+  jumpSpeed = 12;
   isJumping = false;
   jumpCounter = 0;
   otherDirection = false;
@@ -84,6 +84,7 @@ class char extends MoveableObject {
 
   constructor() {
     super();
+    this.energy = 8;
     this.loadImage("../assets/char/idle/idle-0.png");
     this.loadImages(this.img_idle);
     this.loadImages(this.img_walk);
