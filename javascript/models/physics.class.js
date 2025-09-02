@@ -3,10 +3,22 @@ class Physics {
   static groundLevel = 550;
 
   /**
+   * Initializes physics properties for an object
+   * @param {MoveableObject} object - The object to initialize
+   */
+  static initializePhysics(object) {
+    if (object.velocityY === undefined) object.velocityY = 0;
+    if (object.isOnGround === undefined) object.isOnGround = true;
+    if (object.isJumping === undefined) object.isJumping = false;
+  }
+
+  /**
    * Handles gravity and ground collision for an object
    * @param {MoveableObject} object - The object to apply physics to
    */
   static handleGravity(object) {
+    this.initializePhysics(object);
+    
     if (!object.isOnGround) {
       object.velocityY += this.gravity;
     }

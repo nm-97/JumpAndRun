@@ -30,7 +30,9 @@ class levelOne {
       ...LevelManager.createFourGroundTileGroup(250, 550, 64, 64),
       ...LevelManager.createFourGroundTileGroup(500, 550, 64, 64),
       ...LevelManager.createFourGroundTileGroup(750, 550, 64, 64),
-      ...LevelManager.createFourGroundTileGroup(1650, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(1000, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(1250, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(1500, 550, 64, 64),
       ...LevelManager.createFourGroundTileGroup(1750, 550, 64, 64),
       ...LevelManager.createFourGroundTileGroup(2000, 550, 64, 64),
       ...LevelManager.createFourGroundTileGroup(2250, 550, 64, 64),
@@ -78,9 +80,11 @@ class levelOne {
 
   createSpikes() {
     return [
-      // LevelManager.createSpike(600, 518),
-      // LevelManager.createSpike(1400, 518),
-      // LevelManager.createSpike(1900, 518),
+      LevelManager.createSpike(1007, 470),
+      LevelManager.createSpike(1128, 470),
+      LevelManager.createSpike(1256, 470),
+      LevelManager.createSpike(1384, 470),
+      LevelManager.createSpike(1512, 470),
     ];
   }
 

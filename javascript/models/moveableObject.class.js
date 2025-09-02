@@ -10,12 +10,6 @@ class MoveableObject extends drawableObject {
   isHurt = false;
   otherDirection = false;
 
-  // Physics properties
-  velocityY = 0;
-  gravity = 0.9;
-  isOnGround = false;
-  isJumping = false;
-
   updateCamera() {
     if (this.world) {
       this.world.camera_x = -this.x + 100;
@@ -66,11 +60,12 @@ class MoveableObject extends drawableObject {
   }
 
   animateSpike() {
+    console.log("animateSpike called, starting interval"); // Debug
     this.animationInterval = setInterval(() => {
       if (this.traps_spike) {
         this.playAnimation(this.traps_spike);
       }
-    }, 150);
+    }, 800); // Viel langsamer - 800ms pro Frame für sichtbare Animation
   }
 
   animateSpeer() {

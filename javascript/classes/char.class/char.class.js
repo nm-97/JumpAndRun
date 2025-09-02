@@ -2,14 +2,9 @@ class char extends MoveableObject {
   y = 550 - this.height;
   speed = 8;
   jumpSpeed = 12;
-  isJumping = false;
   jumpCounter = 0;
   otherDirection = false;
   animationSpeed = 4;
-  isOnGround = true;
-  groundY = 550 - this.height;
-  velocityY = 0;
-  gravity = 0.5;
 
   img_idle = [
     "../assets/char/animation/idle/idle-0.png",
@@ -107,6 +102,9 @@ class char extends MoveableObject {
   }
 
   handleInput() {
+    // Ensure physics properties are initialized
+    Physics.initializePhysics(this);
+
     this.isMoving = false;
 
     if (this.world.keyboard.KeyD && this.x < 9216) {
