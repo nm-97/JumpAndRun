@@ -1,31 +1,31 @@
 class SoundEffects extends AudioManager {
-  sounds_char_jump = [
-    "../assets/sounds/soundEff/effects/ZEKAVEO - MOD & SFX PACK 1/ZEKAVEO - SFX Pack 1 (Retro, 2D, Side Scroller)/WAV_ZEKAVEO_Jump_SFX.wav",
-  ];
-  sounds_char_hurt = ["../assets/sounds/effects/hurt.wav"];
-  sounds_char_attack = ["../assets/sounds/effects/sword-sound-260274.mp3"];
-  sounds_char_death = [
-    "../assets/sounds/effects/088543_cheesy-death-noise-82782.mp3",
-  ];
+  sounds_char_jump = ["../assets/char/soundEffects/jump.wav"];
+  sounds_char_hurt = ["../assets/char/soundEffects/death.wav"];
+  sounds_char_attack = ["../assets/char/soundEffects/attack.mp3"];
+  sounds_char_death = ["../assets/char/soundEffects/death.mp3"];
   sounds_char_walk = [];
 
-  sounds_coin = [
-    "../assets/sounds/soundEff/effects/ZEKAVEO - MOD & SFX PACK 1/ZEKAVEO - SFX Pack 1 (Retro, 2D, Side Scroller)/WAV_ZEKAVEO_Coin_SFX_1.wav",
+  sounds_coin = ["../assets/char/soundEffects/collectCoin.wav"];
+
+  sounds_goblin_attack = [
+    "../assets/enemy/enemyOne/soundEffects/goblinAttack.wav",
+  ];
+  sounds_goblin_death = [
+    "../assets/enemy/enemyOne/soundEffects/goblinDeath.wav",
+  ];
+  sounds_goblin_laugh = [
+    "../assets/enemy/enemyOne/soundEffects/goblinLaugh.wav",
   ];
 
-  sounds_goblin_attack = [];
-  sounds_goblin_death = ["../assets/sounds/effects/goblin-scream-87564.mp3"];
-  sounds_goblin_laugh = ["../assets/sounds/effects/goblin-cackle-87566.mp3"];
-
-  sounds_demon_attack = ["../assets/sounds/effects/magic-spell-6005.mp3"];
+  sounds_demon_attack = [
+    "../assets/enemy/enemyTwo/soundEffects/demonAttack.wav",
+  ];
   sounds_demon_death = [
-    "../assets/sounds/soundEff/effects/ZEKAVEO - MOD & SFX PACK 1/ZEKAVEO - SFX Pack 1 (Retro, 2D, Side Scroller)/WAV_ZEKAVEO_Goblin_Death_SFX.wav",
+    "../assets/enemy/enemyTwo/soundEEffects/demonDeath.wav",
   ];
 
-  sounds_endboss_attack = [];
-  sounds_endboss_death = [
-    "../assets/sounds/effects/088543_cheesy-death-noise-82782.mp3",
-  ];
+  sounds_endboss_attack = ["../assets/enemy/endboss/sounds/bossAttack.mp3"];
+  sounds_endboss_death = ["../assets/enemy/endboss/sounds/bossDeath.mp3"];
 
   constructor() {
     super();

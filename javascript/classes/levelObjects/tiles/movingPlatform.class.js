@@ -12,7 +12,9 @@ class MovingPlatform extends MoveableObject {
     this.y = y;
     this.startX = x;
     this.endX = endX;
-    this.loadImage("../../../../assets/platforms/moving-platform.png");
+    this.loadImage(
+      "../../../../assets/tileSets/oak_woods_v1.0/tileSet/oak_woods_tileset-8.png"
+    );
   }
 
   update() {

@@ -29,6 +29,9 @@ class World {
     this.ctx.translate(this.camera_x, this.camera_y);
     this.addObjectsToMap(this.background);
     this.addObjectsToMap(this.level.getAllTiles());
+    this.addObjectsToMap(this.level.getAllDecorations());
+    this.addObjectsToMap(this.level.getAllCollectibles());
+    this.addObjectsToMap(this.level.getAllTraps());
     this.addToMap(this.char);
     this.addObjectsToMap(this.enemies);
     this.addToMap(this.endboss);
@@ -40,29 +43,62 @@ class World {
 
   checkCollisions() {
     setInterval(() => {
-      let isColliding = false;
-      this.enemies.forEach((enemy) => {
-        if (this.char.isColliding(enemy)) {
-          // Check if character is not in immunity period
-          let timePassed = new Date().getTime() - this.char.lastHurtTime;
-          let canTakeDamage = timePassed > 1750; // 1.75 seconds immunity
-
-          if (canTakeDamage) {
-            this.char.isHurt = true;
-            this.char.takeDamage(1);
-            this.statusBar.setHealth(this.char.energy);
-          }
-          isColliding = true;
-        }
-      });
-      // Reset hurt animation flag only if not colliding and immunity period is over
-      if (!isColliding) {
-        let timePassed = new Date().getTime() - this.char.lastHurtTime;
-        if (timePassed > 1750) {
-          this.char.isHurt = false;
-        }
-      }
+      this.checkEnemyCollisions();
+      this.checkTrapCollisions();
     }, 8000 / 60);
+  }
+
+  checkEnemyCollisions() {
+    let isColliding = false;
+
+    this.enemies.forEach((enemy) => {
+      if (this.char.isColliding(enemy)) {
+        this.handleEnemyHit();
+        isColliding = true;
+      }
+    });
+
+    if (!isColliding) {
+      this.handleNoCollision();
+    }
+  }
+
+  checkTrapCollisions() {
+    this.level.getAllTraps().forEach((trap) => {
+      if (this.char.isColliding(trap)) {
+        this.handleTrapHit(trap);
+      }
+    });
+  }
+
+  handleTrapHit(trap) {
+    if (this.canCharTakeDamage()) {
+      this.char.isHurt = true;
+
+      // All traps do the same damage
+      this.char.takeDamage(1);
+
+      this.statusBar.setHealth(this.char.energy);
+    }
+  }
+
+  handleEnemyHit() {
+    if (this.canCharTakeDamage()) {
+      this.char.isHurt = true;
+      this.char.takeDamage(1);
+      this.statusBar.setHealth(this.char.energy);
+    }
+  }
+
+  handleNoCollision() {
+    if (this.canCharTakeDamage()) {
+      this.char.isHurt = false;
+    }
+  }
+
+  canCharTakeDamage() {
+    const timePassed = new Date().getTime() - this.char.lastHurtTime;
+    return timePassed > 1750;
   }
 
   addObjectsToMap(Objects) {

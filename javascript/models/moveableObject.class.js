@@ -10,6 +10,12 @@ class MoveableObject extends drawableObject {
   isHurt = false;
   otherDirection = false;
 
+  // Physics properties
+  velocityY = 0;
+  gravity = 0.9;
+  isOnGround = false;
+  isJumping = false;
+
   updateCamera() {
     if (this.world) {
       this.world.camera_x = -this.x + 100;
@@ -25,6 +31,13 @@ class MoveableObject extends drawableObject {
     } else {
       this.lastHurtTime = new Date().getTime();
     }
+  }
+
+  /**
+   * Updates physics for this object using the Physics class
+   */
+  handlePhysics() {
+    Physics.handlePhysics(this);
   }
 
   playAnimation(images) {
@@ -50,6 +63,38 @@ class MoveableObject extends drawableObject {
         this.playAnimation(this.img_idle);
       }
     }, 150);
+  }
+
+  animateSpike() {
+    this.animationInterval = setInterval(() => {
+      if (this.traps_spike) {
+        this.playAnimation(this.traps_spike);
+      }
+    }, 150);
+  }
+
+  animateSpeer() {
+    this.animationInterval = setInterval(() => {
+      if (this.traps_speer && this.isExtended) {
+        this.playAnimation(this.traps_speer);
+      }
+    }, 180);
+  }
+
+  animateFireblazer() {
+    this.animationInterval = setInterval(() => {
+      if (this.traps_fire) {
+        this.playAnimation(this.traps_fire);
+      }
+    }, 120);
+  }
+
+  animateJumper() {
+    this.animationInterval = setInterval(() => {
+      if (this.traps_jumper && this.isActivated) {
+        this.playAnimation(this.traps_jumper);
+      }
+    }, 200);
   }
 
   isHurt() {

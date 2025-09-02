@@ -5,26 +5,22 @@ class levelOne {
     this.platformTiles = this.createPlatformTiles();
     this.decorationTiles = this.createDecorationTiles();
     this.coins = this.createCoins();
-    this.keys = this.createKeys();
     this.healthPotions = this.createHealthPotions();
-    this.chests = this.createChests();
-    this.doors = this.createDoors();
-    this.levers = this.createLevers();
-    this.spikes = this.createSpikes();
-    this.lava = this.createLava();
     this.movingPlatforms = this.createMovingPlatforms();
-    this.trees = this.createTrees();
-    this.bushes = this.createBushes();
     this.rocks = this.createRocks();
+    this.spikes = this.createSpikes();
+    this.speers = this.createSpeers();
+    this.fireblazers = this.createFireblazers();
+    this.jumpers = this.createJumpers();
     this.enemies = [new goblin()];
     this.endboss = new endboss();
   }
 
   createPlatformTiles() {
     return [
-      ...LevelManager.createThreePlatformGroup(500, 400),
-      ...LevelManager.createFourPlatformGroup(650, 350),
-      ...LevelManager.createThreePlatformGroup(800, 300),
+      // ...LevelManager.createThreePlatformGroup(500, 400),
+      // ...LevelManager.createFourPlatformGroup(650, 350),
+      // ...LevelManager.createThreePlatformGroup(800, 300),
     ];
   }
 
@@ -34,9 +30,7 @@ class levelOne {
       ...LevelManager.createFourGroundTileGroup(250, 550, 64, 64),
       ...LevelManager.createFourGroundTileGroup(500, 550, 64, 64),
       ...LevelManager.createFourGroundTileGroup(750, 550, 64, 64),
-      ...LevelManager.createFourGroundTileGroup(1125, 550, 64, 64),
-      ...LevelManager.createFourGroundTileGroup(1250, 550, 64, 64),
-      ...LevelManager.createFourGroundTileGroup(1500, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(1650, 550, 64, 64),
       ...LevelManager.createFourGroundTileGroup(1750, 550, 64, 64),
       ...LevelManager.createFourGroundTileGroup(2000, 550, 64, 64),
       ...LevelManager.createFourGroundTileGroup(2250, 550, 64, 64),
@@ -45,93 +39,69 @@ class levelOne {
 
   createDecorationTiles() {
     return [
-      LevelManager.createDecorationTile(800, 450),
-      LevelManager.createDecorationTile(832, 450),
+      // LevelManager.createDecorationTile(800, 450),
+      // LevelManager.createDecorationTile(832, 450),
     ];
   }
 
   createCoins() {
     return [
-      LevelManager.createCoin(450, 280),
-      LevelManager.createCoin(650, 340),
-      LevelManager.createCoin(850, 410),
-      LevelManager.createCoin(1200, 500),
-      LevelManager.createCoin(1800, 450),
-    ];
-  }
-
-  createKeys() {
-    return [
-      LevelManager.createKey(1500, 400),
-      LevelManager.createKey(2800, 350),
+      // LevelManager.createCoin(450, 280),
+      // LevelManager.createCoin(650, 340),
+      // LevelManager.createCoin(850, 410),
+      // LevelManager.createCoin(1200, 500),
+      // LevelManager.createCoin(1800, 450),
     ];
   }
 
   createHealthPotions() {
     return [
-      LevelManager.createHealthPotion(1000, 500),
-      LevelManager.createHealthPotion(2200, 450),
-    ];
-  }
-
-  createChests() {
-    return [
-      LevelManager.createChest(750, 500),
-      LevelManager.createChest(2500, 480),
-    ];
-  }
-
-  createDoors() {
-    return [LevelManager.createDoor(3000, 456)];
-  }
-
-  createLevers() {
-    return [LevelManager.createLever(1800, 500)];
-  }
-
-  createSpikes() {
-    return [
-      LevelManager.createSpike(1400, 520),
-      LevelManager.createSpike(1432, 520),
-      LevelManager.createSpike(2000, 520),
-    ];
-  }
-
-  createLava() {
-    return [
-      LevelManager.createLava(1600, 520),
-      LevelManager.createLava(1664, 520),
+      // LevelManager.createHealthPotion(1000, 500),
+      // LevelManager.createHealthPotion(2200, 450),
     ];
   }
 
   createMovingPlatforms() {
     return [
-      LevelManager.createMovingPlatform(900, 400, 1100),
-      LevelManager.createMovingPlatform(2000, 350, 2300),
-    ];
-  }
-
-  createTrees() {
-    return [
-      LevelManager.createTree(300, 424),
-      LevelManager.createTree(1200, 424),
-      LevelManager.createTree(2400, 424),
-    ];
-  }
-
-  createBushes() {
-    return [
-      LevelManager.createBush(200, 520),
-      LevelManager.createBush(500, 520),
-      LevelManager.createBush(1600, 520),
+      // LevelManager.createMovingPlatform(900, 400, 1100),
+      // LevelManager.createMovingPlatform(2000, 350, 2300),
     ];
   }
 
   createRocks() {
     return [
-      LevelManager.createRock(350, 520),
-      LevelManager.createRock(1150, 520),
-      LevelManager.createRock(2350, 520),
+      // LevelManager.createRock(350, 520),
+      // LevelManager.createRock(1150, 520),
+      // LevelManager.createRock(2350, 520),
+    ];
+  }
+
+  createSpikes() {
+    return [
+      // LevelManager.createSpike(600, 518),
+      // LevelManager.createSpike(1400, 518),
+      // LevelManager.createSpike(1900, 518),
+    ];
+  }
+
+  createSpeers() {
+    return [
+      // LevelManager.createSpeer(700, 470),
+      // LevelManager.createSpeer(1600, 470),
+    ];
+  }
+
+  createFireblazers() {
+    return [
+      // LevelManager.createFireblazer(1000, 486),
+      // LevelManager.createFireblazer(2100, 486),
+    ];
+  }
+
+  createJumpers() {
+    return [
+      // LevelManager.createJumper(800, 502),
+      // LevelManager.createJumper(1800, 502),
     ];
   }
 
@@ -140,7 +110,29 @@ class levelOne {
       ...this.groundTiles,
       ...this.platformTiles,
       ...this.decorationTiles,
+      ...this.movingPlatforms,
     ];
+  }
+
+  getAllTraps() {
+    return [
+      ...this.spikes,
+      ...this.speers,
+      ...this.fireblazers,
+      ...this.jumpers,
+    ];
+  }
+
+  getAllCollectibles() {
+    return [...this.coins, ...this.healthPotions];
+  }
+
+  getAllInteractables() {
+    return [];
+  }
+
+  getAllDecorations() {
+    return [...this.rocks];
   }
 
   getBackground() {

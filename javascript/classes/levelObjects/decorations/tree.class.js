@@ -6,6 +6,9 @@ class Tree extends MoveableObject {
     super();
     this.x = x;
     this.y = y;
-    this.loadImage("../../../../assets/decorations/tree.png");
+    // Temporary placeholder - tree image doesn't exist yet
+    this.loadImage(
+      "../../../../assets/tileSets/oak_woods_v1.0/tileSet/oak_woods_tileset-11.png"
+    );
   }
 }

@@ -9,7 +9,7 @@ class drawableObject {
   width = 160;
 
   draw(ctx) {
-    if (this.img) {
+    if (this.img && this.img.complete && this.img.naturalWidth > 0) {
       ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
   }
@@ -40,6 +40,10 @@ class drawableObject {
 
   loadImage(path) {
     this.img = new Image();
+    this.img.onerror = () => {
+      console.warn(`Failed to load image: ${path}`);
+      this.img = null;
+    };
     this.img.src = path;
   }
 

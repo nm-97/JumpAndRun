@@ -6,6 +6,9 @@ class Key extends MoveableObject {
     super();
     this.x = x;
     this.y = y;
-    this.loadImage("../../../../assets/items/key.png");
+    // Temporary placeholder - key image doesn't exist yet
+    this.loadImage(
+      "../../../../assets/tileSets/oak_woods_v1.0/tileSet/oak_woods_tileset-18.png"
+    );
   }
 }

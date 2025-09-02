@@ -1,17 +1,55 @@
 class LevelManager {
-  static createGroundTiles(
-    count = 160,
-    startX = 0,
-    startY = 550,
-    width = 64,
-    height = 64
-  ) {
-    const tiles = [];
-    for (let i = 0; i < count; i++) {
-      const tile = new GroundTile(startX + i * width, startY, width, height);
-      tiles.push(tile);
+  static createPositionArray(groupCount, startX, startY, width, height) {
+    const positions = [];
+    for (let i = 0; i < groupCount; i++) {
+      positions.push({
+        x: startX + i * width,
+        y: startY,
+        width: width,
+        height: height,
+      });
     }
-    return tiles;
+    return positions;
+  }
+
+  static getTemplate(groupClass, templateKey) {
+    const templateName = Object.keys(groupClass).find((key) =>
+      key.includes("Template")
+    );
+    return groupClass[templateName][templateKey];
+  }
+
+  static getGroupMethod(groupClass) {
+    const methodName = Object.getOwnPropertyNames(groupClass).find((key) =>
+      key.includes("Group")
+    );
+    return groupClass[methodName];
+  }
+
+  static createObjectGroup(
+    groupClass,
+    templateKey,
+    groupCount,
+    startX,
+    startY,
+    width,
+    height
+  ) {
+    const positions = this.createPositionArray(
+      groupCount,
+      startX,
+      startY,
+      width,
+      height
+    );
+    const template = this.getTemplate(groupClass, templateKey);
+    const groupMethod = this.getGroupMethod(groupClass);
+
+    return groupMethod(template, positions);
+  }
+
+  static createSingleObject(objectClass, x, y, ...additionalParams) {
+    return new objectClass(x, y, ...additionalParams);
   }
 
   static createFourGroundTileGroup(startX, startY, width = 64, height = 64) {
@@ -24,14 +62,14 @@ class LevelManager {
   }
 
   static createThreePlatformGroup(startX, startY, width = 32, height = 32) {
-    const positions = [
-      { x: startX, y: startY, width: width, height: height },
-      { x: startX + 32, y: startY, width: width, height: height },
-      { x: startX + 64, y: startY, width: width, height: height },
-    ];
-    return PlatformTile.platformGroup(
-      PlatformTile.platformTemplate.createPlatformOfThree,
-      positions
+    return this.createObjectGroup(
+      PlatformTile,
+      "createPlatformOfThree",
+      3,
+      startX,
+      startY,
+      width,
+      height
     );
   }
 
@@ -44,67 +82,58 @@ class LevelManager {
   }
 
   static createFourPlatformGroup(startX, startY, width = 32, height = 32) {
-    const positions = [
-      { x: startX, y: startY, width: width, height: height },
-      { x: startX + 32, y: startY, width: width, height: height },
-      { x: startX + 64, y: startY, width: width, height: height },
-      { x: startX + 96, y: startY, width: width, height: height },
-    ];
-    return PlatformTile.platformGroup(
-      PlatformTile.platformTemplate.createPlatformOfFour,
-      positions
+    return this.createObjectGroup(
+      PlatformTile,
+      "createPlatformOfFour",
+      4,
+      startX,
+      startY,
+      width,
+      height
     );
   }
 
   static createDecorationTile(x, y) {
-    return new DecorationTile(x, y);
+    return this.createSingleObject(DecorationTile, x, y);
   }
 
   static createCoin(x, y) {
-    return new Coin(x, y);
-  }
-
-  static createKey(x, y) {
-    return new Key(x, y);
-  }
-
-  static createHealthPotion(x, y) {
-    return new HealthPotion(x, y);
-  }
-
-  static createChest(x, y) {
-    return new Chest(x, y);
-  }
-
-  static createDoor(x, y) {
-    return new Door(x, y);
-  }
-
-  static createLever(x, y) {
-    return new Lever(x, y);
+    return this.createSingleObject(Coin, x, y);
   }
 
   static createSpike(x, y) {
-    return new Spike(x, y);
+    return this.createSingleObject(Spike, x, y);
   }
 
-  static createLava(x, y) {
-    return new Lava(x, y);
+  static createFireblazer(x, y) {
+    return this.createSingleObject(Fireblazer, x, y);
+  }
+
+  static createJumper(x, y) {
+    return this.createSingleObject(Jumper, x, y);
+  }
+
+  static createSpeer(x, y) {
+    return this.createSingleObject(Speer, x, y);
+  }
+
+  static createHealthPotion(x, y) {
+    return this.createSingleObject(HealthPotion, x, y);
   }
 
   static createMovingPlatform(x, y, endX) {
-    return new MovingPlatform(x, y, endX);
+    return this.createSingleObject(MovingPlatform, x, y, endX);
   }
 
   static createTree(x, y) {
-    return new Tree(x, y);
+    return this.createSingleObject(Tree, x, y);
   }
 
   static createBush(x, y) {
-    return new Bush(x, y);
+    return this.createSingleObject(Bush, x, y);
   }
 
   static createRock(x, y) {
-    return new Rock(x, y);
+    return this.createSingleObject(Rock, x, y);
   }
 }
