@@ -1,7 +1,7 @@
 class char extends MoveableObject {
   y = 550 - this.height;
-  speed = 8;
-  jumpSpeed = 12;
+  speed = 9;
+  jumpSpeed = 15;
   jumpCounter = 0;
   otherDirection = false;
   animationSpeed = 4;
@@ -87,6 +87,9 @@ class char extends MoveableObject {
     this.loadImages(this.img_attack);
     this.loadImages(this.img_death);
     this.loadImages(this.img_hurt);
+
+    this.setCustomHitbox(100, 140, 30, 10);
+
     this.animate();
     this.startInputHandler();
   }
@@ -102,7 +105,6 @@ class char extends MoveableObject {
   }
 
   handleInput() {
-    // Ensure physics properties are initialized
     Physics.initializePhysics(this);
 
     this.isMoving = false;

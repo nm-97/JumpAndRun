@@ -20,7 +20,16 @@ class Jumper extends MoveableObject {
     this.y = y;
     this.loadImage(this.traps_jumper[0]);
     this.loadImages(this.traps_jumper);
-    this.animateJumper(); // Jumper-spezifische Animation starten
+
+    this.setCustomHitbox(35, 25, 6, 10);
+
+    this.animateJumper();
+  }
+
+  animateJumper() {
+    this.animationInterval = setInterval(() => {
+      this.playAnimation(this.traps_jumper);
+    }, 1000 / 6);
   }
 
   static jumperTemplate = {

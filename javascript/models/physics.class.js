@@ -18,14 +18,13 @@ class Physics {
    */
   static handleGravity(object) {
     this.initializePhysics(object);
-    
+
     if (!object.isOnGround) {
       object.velocityY += this.gravity;
     }
 
     object.y += object.velocityY;
 
-    // Ground collision
     if (object.y >= this.groundLevel - object.height) {
       object.y = this.groundLevel - object.height;
       object.isOnGround = true;
@@ -86,9 +85,26 @@ class Physics {
    * @param {Platform} platform - The platform to check against
    */
   static isAbovePlatform(object, platform) {
+    if (!platform.hitboxWidth || !platform.hitboxHeight) {
+      if (object.hitboxWidth && object.hitboxHeight) {
+        const objectHitbox = object.getHitbox();
+        return (
+          objectHitbox.x < platform.x + platform.width &&
+          objectHitbox.x + objectHitbox.width > platform.x
+        );
+      }
+      return (
+        object.x < platform.x + platform.width &&
+        object.x + object.width > platform.x
+      );
+    }
+
+    const objectHitbox = object.getHitbox();
+    const platformHitbox = platform.getHitbox();
+
     return (
-      object.x < platform.x + platform.width &&
-      object.x + object.width > platform.x
+      objectHitbox.x < platformHitbox.x + platformHitbox.width &&
+      objectHitbox.x + objectHitbox.width > platformHitbox.x
     );
   }
 
@@ -98,9 +114,26 @@ class Physics {
    * @param {Platform} platform - The platform to check against
    */
   static isLandingOnPlatform(object, platform) {
+    if (!platform.hitboxWidth || !platform.hitboxHeight) {
+      if (object.hitboxWidth && object.hitboxHeight) {
+        const objectHitbox = object.getHitbox();
+        return (
+          objectHitbox.y + objectHitbox.height >= platform.y &&
+          objectHitbox.y + objectHitbox.height <= platform.y + 10
+        );
+      }
+      return (
+        object.y + object.height >= platform.y &&
+        object.y + object.height <= platform.y + 10
+      );
+    }
+
+    const objectHitbox = object.getHitbox();
+    const platformHitbox = platform.getHitbox();
+
     return (
-      object.y + object.height >= platform.y &&
-      object.y + object.height <= platform.y + 10
+      objectHitbox.y + objectHitbox.height >= platformHitbox.y &&
+      objectHitbox.y + objectHitbox.height <= platformHitbox.y + 10
     );
   }
 
@@ -110,10 +143,29 @@ class Physics {
    * @param {Platform} platform - The platform to check against
    */
   static isStandingOnPlatform(object, platform) {
+    if (!platform.hitboxWidth || !platform.hitboxHeight) {
+      if (object.hitboxWidth && object.hitboxHeight) {
+        const objectHitbox = object.getHitbox();
+        return (
+          objectHitbox.x + objectHitbox.width > platform.x &&
+          objectHitbox.x < platform.x + platform.width &&
+          Math.abs(objectHitbox.y + objectHitbox.height - platform.y) < 5
+        );
+      }
+      return (
+        object.x + object.width > platform.x &&
+        object.x < platform.x + platform.width &&
+        Math.abs(object.y + object.height - platform.y) < 5
+      );
+    }
+
+    const objectHitbox = object.getHitbox();
+    const platformHitbox = platform.getHitbox();
+
     return (
-      object.x + object.width > platform.x &&
-      object.x < platform.x + platform.width &&
-      Math.abs(object.y + object.height - platform.y) < 5
+      objectHitbox.x + objectHitbox.width > platformHitbox.x &&
+      objectHitbox.x < platformHitbox.x + platformHitbox.width &&
+      Math.abs(objectHitbox.y + objectHitbox.height - platformHitbox.y) < 5
     );
   }
 
@@ -123,7 +175,26 @@ class Physics {
    * @param {Platform} platform - The platform to land on
    */
   static landOnPlatform(object, platform) {
-    object.y = platform.y - object.height;
+    if (!platform.hitboxWidth || !platform.hitboxHeight) {
+      if (object.hitboxWidth && object.hitboxHeight) {
+        const objectHitbox = object.getHitbox();
+
+        object.y =
+          platform.y - objectHitbox.height - (objectHitbox.y - object.y);
+      } else {
+        object.y = platform.y - object.height;
+      }
+      object.isOnGround = true;
+      object.isJumping = false;
+      object.velocityY = 0;
+      return;
+    }
+
+    const objectHitbox = object.getHitbox();
+    const platformHitbox = platform.getHitbox();
+
+    object.y =
+      platformHitbox.y - objectHitbox.height - (objectHitbox.y - object.y);
     object.isOnGround = true;
     object.isJumping = false;
     object.velocityY = 0;

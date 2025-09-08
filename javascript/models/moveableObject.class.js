@@ -60,12 +60,11 @@ class MoveableObject extends drawableObject {
   }
 
   animateSpike() {
-    console.log("animateSpike called, starting interval"); // Debug
     this.animationInterval = setInterval(() => {
       if (this.traps_spike) {
         this.playAnimation(this.traps_spike);
       }
-    }, 800); // Viel langsamer - 800ms pro Frame für sichtbare Animation
+    }, 800);
   }
 
   animateSpeer() {

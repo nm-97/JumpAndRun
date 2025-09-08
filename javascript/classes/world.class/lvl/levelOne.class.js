@@ -18,9 +18,11 @@ class levelOne {
 
   createPlatformTiles() {
     return [
-      // ...LevelManager.createThreePlatformGroup(500, 400),
-      // ...LevelManager.createFourPlatformGroup(650, 350),
-      // ...LevelManager.createThreePlatformGroup(800, 300),
+      ...LevelManager.createThreePlatformGroup(850, 430),
+      ...LevelManager.createFourPlatformGroup(1050, 350),
+      ...LevelManager.createThreePlatformGroup(850, 300),
+      ...LevelManager.createThreePlatformGroup(650, 240),
+      ...LevelManager.createThreePlatformGroup(1350, 430),
     ];
   }
 
@@ -36,6 +38,13 @@ class levelOne {
       ...LevelManager.createFourGroundTileGroup(1750, 550, 64, 64),
       ...LevelManager.createFourGroundTileGroup(2000, 550, 64, 64),
       ...LevelManager.createFourGroundTileGroup(2250, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(2500, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(2750, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(3000, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(3250, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(3500, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(3750, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(4000, 550, 64, 64),
     ];
   }
 
@@ -80,25 +89,25 @@ class levelOne {
 
   createSpikes() {
     return [
-      LevelManager.createSpike(1007, 470),
-      LevelManager.createSpike(1128, 470),
-      LevelManager.createSpike(1256, 470),
-      LevelManager.createSpike(1384, 470),
-      LevelManager.createSpike(1512, 470),
+      LevelManager.createSpike(900, 490),
+      LevelManager.createSpike(1000, 490),
+      LevelManager.createSpike(1096, 490),
+      LevelManager.createSpike(1196, 490),
+      LevelManager.createSpike(1296, 490),
     ];
   }
 
   createSpeers() {
     return [
-      // LevelManager.createSpeer(700, 470),
-      // LevelManager.createSpeer(1600, 470),
+      LevelManager.createSpeer(700, 470),
+      LevelManager.createSpeer(1600, 470),
     ];
   }
 
   createFireblazers() {
     return [
-      // LevelManager.createFireblazer(1000, 486),
-      // LevelManager.createFireblazer(2100, 486),
+      LevelManager.createFireblazer(2064, 510),
+      LevelManager.createFireblazer(2100, 510),
     ];
   }
 
@@ -114,7 +123,7 @@ class levelOne {
       ...this.groundTiles,
       ...this.platformTiles,
       ...this.decorationTiles,
-      ...this.movingPlatforms,
+      // ...this.movingPlatforms,
     ];
   }
 

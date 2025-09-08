@@ -52,7 +52,7 @@ class World {
     let isColliding = false;
 
     this.enemies.forEach((enemy) => {
-      if (this.char.isColliding(enemy)) {
+      if (this.char.isCollidingWithCustomHitbox(enemy)) {
         this.handleEnemyHit();
         isColliding = true;
       }
@@ -65,7 +65,7 @@ class World {
 
   checkTrapCollisions() {
     this.level.getAllTraps().forEach((trap) => {
-      if (this.char.isColliding(trap)) {
+      if (this.char.isCollidingWithCustomHitbox(trap)) {
         this.handleTrapHit(trap);
       }
     });
@@ -75,7 +75,6 @@ class World {
     if (this.canCharTakeDamage()) {
       this.char.isHurt = true;
 
-      // All traps do the same damage
       this.char.takeDamage(1);
 
       this.statusBar.setHealth(this.char.energy);

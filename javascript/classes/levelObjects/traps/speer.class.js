@@ -23,9 +23,18 @@ class Speer extends MoveableObject {
     super();
     this.x = x;
     this.y = y;
-    this.loadImage(this.traps_speer[0]); // Erstes Frame laden
+    this.loadImage(this.traps_speer[0]);
     this.loadImages(this.traps_speer);
-    this.animateSpeer(); // Speer-spezifische Animation starten
+
+    this.setCustomHitbox(20, 40, 10, 20);
+
+    this.animateSpeer();
+  }
+
+  animateSpeer() {
+    this.animationInterval = setInterval(() => {
+      this.playAnimation(this.traps_speer);
+    }, 1000 / 8);
   }
 
   static speerTemplate = {
@@ -60,7 +69,6 @@ class Speer extends MoveableObject {
     return speers;
   }
 
-  // Speer schießt aus dem Boden/Wand
   triggerTrap() {
     if (!this.isExtended) {
       this.extend();
@@ -72,11 +80,9 @@ class Speer extends MoveableObject {
 
   extend() {
     this.isExtended = true;
-    // Animation: Speer fährt aus
   }
 
   retract() {
     this.isExtended = false;
-    // Animation: Speer fährt ein
   }
 }

@@ -1,13 +1,6 @@
 class Fireblazer extends MoveableObject {
-  width = 64;
-  height = 64;
-
-  traps_fire = [
-    "../../../../assets/traps/Fireblazer/Fire-0.png",
-    "../../../../assets/traps/Fireblazer/Fire-1.png",
-    "../../../../assets/traps/Fireblazer/Fire-2.png",
-    "../../../../assets/traps/Fireblazer/Fire-3.png",
-  ];
+  width = 32;
+  height = 48;
 
   traps_firebox = [
     "../../../../assets/traps/Fireblazer/FireBox-0.png",
@@ -25,13 +18,61 @@ class Fireblazer extends MoveableObject {
     "../../../../assets/traps/Fireblazer/FireBox-12.png",
   ];
 
+  traps_fire = [
+    "../../../../assets/traps/Fireblazer/Fire-0.png",
+    "../../../../assets/traps/Fireblazer/Fire-1.png",
+    "../../../../assets/traps/Fireblazer/Fire-2.png",
+    "../../../../assets/traps/Fireblazer/Fire-3.png",
+  ];
+
   constructor(x, y) {
     super();
     this.x = x;
     this.y = y;
-    this.loadImage(this.traps_fire[0]); // Erstes Frame laden
+    this.currentFireboxFrame = 0;
+    this.currentFireFrame = 0;
+
+    this.loadImage(this.traps_firebox[0]);
+    this.loadImages(this.traps_firebox);
     this.loadImages(this.traps_fire);
-    this.animateFireblazer(); // Fireblazer-spezifische Animation starten
+
+    this.setCustomHitbox(40, 50, 12, 7);
+
+    this.animateFireblazer();
+  }
+
+  animateFireblazer() {
+    this.animationInterval = setInterval(() => {
+      this.currentFireboxFrame =
+        (this.currentFireboxFrame + 1) % this.traps_firebox.length;
+
+      this.currentFireFrame =
+        (this.currentFireFrame + 1) % this.traps_fire.length;
+    }, 8000 / 60);
+  }
+
+  draw(ctx) {
+    if (this.imageCache[this.traps_firebox[this.currentFireboxFrame]]) {
+      ctx.drawImage(
+        this.imageCache[this.traps_firebox[this.currentFireboxFrame]],
+        this.x,
+        this.y,
+        this.width,
+        this.height
+      );
+    }
+
+    if (this.currentFireboxFrame >= 4 && this.currentFireboxFrame <= 8) {
+      if (this.imageCache[this.traps_fire[this.currentFireFrame]]) {
+        ctx.drawImage(
+          this.imageCache[this.traps_fire[this.currentFireFrame]],
+          this.x - 1,
+          this.y - 24,
+          this.width,
+          this.height
+        );
+      }
+    }
   }
 
   static fireblazerTemplate = {
@@ -64,11 +105,5 @@ class Fireblazer extends MoveableObject {
       fireblazers.push(fireblazer);
     });
     return fireblazers;
-  }
-
-  // Feuer-Animation könnte hier hinzugefügt werden
-  activateTrap() {
-    // Feuer-Effekt
-    console.log("Fireblazer activated!");
   }
 }

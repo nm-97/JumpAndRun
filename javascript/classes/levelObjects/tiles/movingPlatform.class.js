@@ -1,6 +1,6 @@
 class MovingPlatform extends MoveableObject {
-  width = 96;
-  height = 24;
+  width = 256;
+  height = 128;
   speed = 2;
   direction = 1;
   startX;
