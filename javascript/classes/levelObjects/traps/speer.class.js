@@ -28,13 +28,7 @@ class Speer extends MoveableObject {
 
     this.setCustomHitbox(20, 40, 10, 20);
 
-    this.animateSpeer();
-  }
-
-  animateSpeer() {
-    this.animationInterval = setInterval(() => {
-      this.playAnimation(this.traps_speer);
-    }, 1000 / 8);
+    Animation.animateSpeer(this);
   }
 
   static speerTemplate = {
@@ -67,22 +61,5 @@ class Speer extends MoveableObject {
       speers.push(speer);
     });
     return speers;
-  }
-
-  triggerTrap() {
-    if (!this.isExtended) {
-      this.extend();
-      setTimeout(() => {
-        this.retract();
-      }, 2000);
-    }
-  }
-
-  extend() {
-    this.isExtended = true;
-  }
-
-  retract() {
-    this.isExtended = false;
   }
 }

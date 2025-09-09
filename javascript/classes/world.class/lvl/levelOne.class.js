@@ -12,7 +12,7 @@ class levelOne {
     this.speers = this.createSpeers();
     this.fireblazers = this.createFireblazers();
     this.jumpers = this.createJumpers();
-    this.enemies = [new goblin()];
+    this.enemies = this.createEnemies();
     this.endboss = new endboss();
   }
 
@@ -26,25 +26,17 @@ class levelOne {
     ];
   }
 
-  createGroundTiles() {
+  createCoins() {
+    return [LevelManager.createCoin(687, 210)];
+  }
+
+  createEnemies() {
     return [
-      ...LevelManager.createFourGroundTileGroup(0, 550, 64, 64),
-      ...LevelManager.createFourGroundTileGroup(250, 550, 64, 64),
-      ...LevelManager.createFourGroundTileGroup(500, 550, 64, 64),
-      ...LevelManager.createFourGroundTileGroup(750, 550, 64, 64),
-      ...LevelManager.createFourGroundTileGroup(1000, 550, 64, 64),
-      ...LevelManager.createFourGroundTileGroup(1250, 550, 64, 64),
-      ...LevelManager.createFourGroundTileGroup(1500, 550, 64, 64),
-      ...LevelManager.createFourGroundTileGroup(1750, 550, 64, 64),
-      ...LevelManager.createFourGroundTileGroup(2000, 550, 64, 64),
-      ...LevelManager.createFourGroundTileGroup(2250, 550, 64, 64),
-      ...LevelManager.createFourGroundTileGroup(2500, 550, 64, 64),
-      ...LevelManager.createFourGroundTileGroup(2750, 550, 64, 64),
-      ...LevelManager.createFourGroundTileGroup(3000, 550, 64, 64),
-      ...LevelManager.createFourGroundTileGroup(3250, 550, 64, 64),
-      ...LevelManager.createFourGroundTileGroup(3500, 550, 64, 64),
-      ...LevelManager.createFourGroundTileGroup(3750, 550, 64, 64),
-      ...LevelManager.createFourGroundTileGroup(4000, 550, 64, 64),
+      LevelManager.createGoblin(700, 450),
+      LevelManager.createDemon(1050, 270),
+      LevelManager.createGoblin(1200, 550 - 160),
+      LevelManager.createDemon(1600, 550 - 160),
+      LevelManager.createGoblin(2000, 550 - 160),
     ];
   }
 
@@ -52,16 +44,6 @@ class levelOne {
     return [
       // LevelManager.createDecorationTile(800, 450),
       // LevelManager.createDecorationTile(832, 450),
-    ];
-  }
-
-  createCoins() {
-    return [
-      // LevelManager.createCoin(450, 280),
-      // LevelManager.createCoin(650, 340),
-      // LevelManager.createCoin(850, 410),
-      // LevelManager.createCoin(1200, 500),
-      // LevelManager.createCoin(1800, 450),
     ];
   }
 
@@ -118,6 +100,27 @@ class levelOne {
     ];
   }
 
+  createGroundTiles() {
+    return [
+      ...LevelManager.createFourGroundTileGroup(0, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(250, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(500, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(750, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(1000, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(1250, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(1500, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(1750, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(2000, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(2250, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(2500, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(2750, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(3000, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(3250, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(3500, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(3750, 550, 64, 64),
+      ...LevelManager.createFourGroundTileGroup(4000, 550, 64, 64),
+    ];
+  }
   getAllTiles() {
     return [
       ...this.groundTiles,

@@ -44,6 +44,12 @@ class goblin extends MoveableObject {
 
   constructor() {
     super();
+    this.energy = 3;
+    this.hurtFrameCount = 0;
+    this.isHurtAnimationPlaying = false;
+    this.attackFrameCount = 0;
+    this.isAttackAnimationPlaying = false;
+    this.canDealDamage = false;
     this.loadImage("../assets/enemy/enemyOne/Goblin2/idle/Idle-0.png");
     this.loadImages(this.img_idle);
     this.loadImages(this.img_walk);
@@ -54,10 +60,28 @@ class goblin extends MoveableObject {
     this.speed = 1 + Math.random() * 3;
     this.x = 200 + Math.random() * 400;
 
-    this.setCustomHitbox(80, 120, 40, 20);
+    this.setCustomHitbox(60, 60, 42, 42);
 
-    this.animate();
-    this.startAI();
+    Animation.animate(this);
+    // this.startAI();
+  }
+
+  startHurtAnimation() {
+    this.isHurt = true;
+    this.isHurtAnimationPlaying = true;
+    this.hurtFrameCount = 0;
+
+    Animation.animateHurt(this);
+  }
+
+  startAttackAnimation() {
+    this.isAttacking = true;
+    this.isAttackAnimationPlaying = true;
+    this.attackFrameCount = 0;
+    this.currentFrame = 0;
+    this.canDealDamage = true;
+
+    Animation.animateAttack(this);
   }
 
   startAI() {
@@ -67,7 +91,13 @@ class goblin extends MoveableObject {
   }
 
   aiLogic() {
-    this.isMoving = true;
-    this.moveLeft();
+    if (!this.isAttacking && !this.isHurt && !this.isDead) {
+      if (Math.random() < 0.05) {
+        this.startAttackAnimation();
+      } else {
+        this.isMoving = true;
+        this.moveLeft();
+      }
+    }
   }
 }

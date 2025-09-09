@@ -8,7 +8,6 @@ class drawableObject {
   height = 160;
   width = 160;
 
-  // Custom Hitbox-Eigenschaften (falls nicht gesetzt, verwende width/height)
   hitboxWidth = null;
   hitboxHeight = null;
   hitboxOffsetX = 0;
@@ -17,6 +16,30 @@ class drawableObject {
   draw(ctx) {
     if (this.img && this.img.complete && this.img.naturalWidth > 0) {
       ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    }
+  }
+
+  drawFireblazer(ctx) {
+    if (this.imageCache[this.traps_firebox[this.currentFireboxFrame]]) {
+      ctx.drawImage(
+        this.imageCache[this.traps_firebox[this.currentFireboxFrame]],
+        this.x,
+        this.y,
+        this.width,
+        this.height
+      );
+    }
+
+    if (this.currentFireboxFrame >= 4 && this.currentFireboxFrame <= 8) {
+      if (this.imageCache[this.traps_fire[this.currentFireFrame]]) {
+        ctx.drawImage(
+          this.imageCache[this.traps_fire[this.currentFireFrame]],
+          this.x - 1,
+          this.y - 24,
+          this.width,
+          this.height
+        );
+      }
     }
   }
 
@@ -35,6 +58,7 @@ class drawableObject {
     if (
       this instanceof char ||
       this instanceof goblin ||
+      this instanceof demon ||
       this instanceof endboss ||
       this instanceof PlatformTile ||
       this instanceof Spike ||
@@ -42,21 +66,11 @@ class drawableObject {
       this instanceof Jumper ||
       this instanceof Speer
     ) {
-      // Zeichne den originalen Rahmen in blau
-      ctx.beginPath();
-      ctx.lineWidth = "1";
-      ctx.strokeStyle = "blue";
-      ctx.rect(this.x, this.y, this.width, this.height);
-      ctx.stroke();
-
-      // Zeichne die Custom-Hitbox in rot
       this.drawCustomHitbox(ctx);
     }
   }
 
-  // Kollision mit Custom-Hitboxen
   isCollidingWithCustomHitbox(MoveableObject) {
-    // Hole die Hitbox-Dimensionen (fallback auf width/height)
     const thisHitbox = this.getHitbox();
     const objHitbox = MoveableObject.getHitbox();
 

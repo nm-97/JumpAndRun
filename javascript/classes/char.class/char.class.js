@@ -1,10 +1,23 @@
 class char extends MoveableObject {
-  y = 550 - this.height;
   speed = 9;
   jumpSpeed = 15;
+  energy = 8;
+  worldBoundaries = { minX: 120, maxX: 9216 };
+  hitboxes = {
+    normal: { width: 90, height: 128, offsetX: 30, offsetY: 32 },
+    attack: { width: 130, height: 128, offsetX: 10, offsetY: 32 },
+  };
+
+  y = 550 - this.height;
+  speed = char.speed;
+  jumpSpeed = char.jumpSpeed;
   jumpCounter = 0;
   otherDirection = false;
   animationSpeed = 4;
+
+  attackFrameCount = 0;
+  isAttackAnimationPlaying = false;
+  fKeyPressed = false;
 
   img_idle = [
     "../assets/char/animation/idle/idle-0.png",
@@ -79,7 +92,17 @@ class char extends MoveableObject {
 
   constructor() {
     super();
-    this.energy = 8;
+    this.energy = char.energy;
+    this.normalHitbox = char.hitboxes.normal;
+    this.attackHitbox = char.hitboxes.attack;
+
+    this.initializeImages();
+    this.setupHitbox();
+    this.startSystems();
+  }
+
+  // === INITIALISIERUNG ===
+  initializeImages() {
     this.loadImage("../assets/char/animation/idle/idle-0.png");
     this.loadImages(this.img_idle);
     this.loadImages(this.img_walk);
@@ -87,10 +110,19 @@ class char extends MoveableObject {
     this.loadImages(this.img_attack);
     this.loadImages(this.img_death);
     this.loadImages(this.img_hurt);
+  }
 
-    this.setCustomHitbox(100, 140, 30, 10);
+  setupHitbox() {
+    this.setCustomHitbox(
+      this.normalHitbox.width,
+      this.normalHitbox.height,
+      this.normalHitbox.offsetX,
+      this.normalHitbox.offsetY
+    );
+  }
 
-    this.animate();
+  startSystems() {
+    Animation.animate(this);
     this.startInputHandler();
   }
 
@@ -106,26 +138,72 @@ class char extends MoveableObject {
 
   handleInput() {
     Physics.initializePhysics(this);
-
     this.isMoving = false;
 
-    if (this.world.keyboard.KeyD && this.x < 9216) {
+    this.handleMovement();
+    this.handleJump();
+    this.handleAttack();
+  }
+
+  handleMovement() {
+    const { minX, maxX } = char.worldBoundaries;
+
+    if (this.world.keyboard.KeyD && this.x < maxX) {
       this.x += this.speed;
       this.otherDirection = false;
       this.isMoving = this.isOnGround;
     }
-    if (this.world.keyboard.KeyA && this.x > 120) {
+    if (this.world.keyboard.KeyA && this.x > minX) {
       this.x -= this.speed;
       this.otherDirection = true;
       this.isMoving = this.isOnGround;
     }
+  }
 
+  handleJump() {
     if (this.world.keyboard.Space && this.isOnGround) {
       this.velocityY = -this.jumpSpeed;
       this.isOnGround = false;
       this.isJumping = true;
     }
+  }
 
-    this.isAttacking = this.world.keyboard.KeyF;
+  handleAttack() {
+    if (
+      this.world.keyboard.KeyF &&
+      !this.fKeyPressed &&
+      !this.isAttackAnimationPlaying
+    ) {
+      this.startAttackAnimation();
+    }
+
+    this.fKeyPressed = this.world.keyboard.KeyF;
+  }
+
+  startAttackAnimation() {
+    this.isAttacking = true;
+    this.isAttackAnimationPlaying = true;
+    this.attackFrameCount = 0;
+    this.currentFrame = 0;
+
+    this.setCustomHitbox(
+      this.attackHitbox.width,
+      this.attackHitbox.height,
+      this.attackHitbox.offsetX,
+      this.attackHitbox.offsetY
+    );
+
+    Animation.animateAttack(this);
+  }
+
+  updateAttackAnimation() {
+    if (this.isAttackAnimationPlaying) {
+      this.attackFrameCount++;
+      if (this.attackFrameCount >= this.img_attack.length) {
+        this.isAttacking = false;
+        this.isAttackAnimationPlaying = false;
+        this.attackFrameCount = 0;
+      }
+    }
   }
 }

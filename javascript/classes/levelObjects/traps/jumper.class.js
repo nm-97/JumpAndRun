@@ -23,13 +23,7 @@ class Jumper extends MoveableObject {
 
     this.setCustomHitbox(35, 25, 6, 10);
 
-    this.animateJumper();
-  }
-
-  animateJumper() {
-    this.animationInterval = setInterval(() => {
-      this.playAnimation(this.traps_jumper);
-    }, 1000 / 6);
+    Animation.animateJumper(this);
   }
 
   static jumperTemplate = {
@@ -62,15 +56,5 @@ class Jumper extends MoveableObject {
       jumpers.push(jumper);
     });
     return jumpers;
-  }
-
-  activateTrap(char) {
-    if (!this.isActivated) {
-      char.velocityY = -20;
-      this.isActivated = true;
-      setTimeout(() => {
-        this.isActivated = false;
-      }, 1000);
-    }
   }
 }

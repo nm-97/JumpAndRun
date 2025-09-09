@@ -29,12 +29,6 @@ class Spike extends MoveableObject {
       clearInterval(this.animationInterval);
     }
 
-    this.animateSpike();
-  }
-
-  animateSpike() {
-    this.animationInterval = setInterval(() => {
-      this.playAnimation(this.traps_spike);
-    }, 8000 / 60);
+    Animation.animateSpike(this);
   }
 }

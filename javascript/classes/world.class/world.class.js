@@ -2,8 +2,10 @@ class World {
   camera_x = 0;
   camera_y = 0;
   statusBar = new statusBar();
+  coinCounter = new CoinCounter();
   backgroundMusic = new BackgroundMusic();
   soundEffects = new SoundEffects();
+  debugMode = true;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -14,6 +16,7 @@ class World {
     this.endboss = this.level.getEndboss();
     this.keyboard = keyboard;
     this.char = new char();
+    this.demonProjectiles = [];
     this.backgroundMusic.setupCanvasClickHandler();
     this.setWorld();
     this.draw();
@@ -22,6 +25,12 @@ class World {
   setWorld() {
     this.char.world = this;
     this.char.keyboard = this.keyboard;
+
+    this.enemies.forEach((enemy) => {
+      if (enemy instanceof demon) {
+        enemy.world = this;
+      }
+    });
   }
 
   draw() {
@@ -34,10 +43,12 @@ class World {
     this.addObjectsToMap(this.level.getAllTraps());
     this.addToMap(this.char);
     this.addObjectsToMap(this.enemies);
-    this.addToMap(this.endboss);
+    this.addObjectsToMap(this.demonProjectiles);
+    // this.addToMap(this.endboss);
     this.checkCollisions();
     this.ctx.translate(-this.camera_x, -this.camera_y);
     this.addToMap(this.statusBar);
+    this.addToMap(this.coinCounter);
     requestAnimationFrame(this.draw.bind(this));
   }
 
@@ -45,6 +56,9 @@ class World {
     setInterval(() => {
       this.checkEnemyCollisions();
       this.checkTrapCollisions();
+      this.checkCoinCollisions();
+      this.checkAttackCollisions();
+      this.checkProjectileCollisions();
     }, 8000 / 60);
   }
 
@@ -53,8 +67,16 @@ class World {
 
     this.enemies.forEach((enemy) => {
       if (this.char.isCollidingWithCustomHitbox(enemy)) {
-        this.handleEnemyHit();
-        isColliding = true;
+        if (
+          (enemy instanceof goblin || enemy instanceof demon) &&
+          enemy.canDealDamage
+        ) {
+          this.handleEnemyHit();
+          isColliding = true;
+        } else if (!(enemy instanceof goblin) && !(enemy instanceof demon)) {
+          this.handleEnemyHit();
+          isColliding = true;
+        }
       }
     });
 
@@ -69,6 +91,54 @@ class World {
         this.handleTrapHit(trap);
       }
     });
+  }
+
+  checkCoinCollisions() {
+    this.level.getAllCollectibles().forEach((collectible, index) => {
+      if (
+        collectible instanceof Coin &&
+        this.char.isCollidingWithCustomHitbox(collectible)
+      ) {
+        this.handleCoinCollection(collectible, index);
+      }
+    });
+  }
+
+  handleCoinCollection(coin, index) {
+    this.level.coins.splice(index, 1);
+    this.coinCounter.incrementCoin();
+  }
+
+  checkAttackCollisions() {
+    if (this.char.isAttacking) {
+      this.enemies.forEach((enemy, index) => {
+        if (
+          this.char.isCollidingWithCustomHitbox(enemy) &&
+          this.canEnemyTakeDamage(enemy)
+        ) {
+          this.handleEnemyDamage(enemy, index);
+        }
+      });
+    }
+  }
+
+  handleEnemyDamage(enemy, index) {
+    enemy.startHurtAnimation();
+    enemy.takeDamage();
+    enemy.lastHurtTime = new Date().getTime();
+
+    if (enemy.energy <= 0) {
+      enemy.isDead = true;
+
+      setTimeout(() => {
+        this.enemies.splice(index, 1);
+      }, 1500);
+    }
+  }
+
+  canEnemyTakeDamage(enemy) {
+    const timePassed = new Date().getTime() - enemy.lastHurtTime;
+    return timePassed > 1000;
   }
 
   handleTrapHit(trap) {
@@ -114,9 +184,45 @@ class World {
       MoveableObject.x = MoveableObject.x * -1;
     }
     MoveableObject.draw(this.ctx);
+
+    if (
+      this.debugMode &&
+      (MoveableObject instanceof char ||
+        MoveableObject instanceof goblin ||
+        MoveableObject instanceof demon ||
+        MoveableObject instanceof endboss ||
+        MoveableObject instanceof DemonProjectile)
+    ) {
+      MoveableObject.drawFrame(this.ctx);
+    }
+
     if (MoveableObject.otherDirection) {
       MoveableObject.x = MoveableObject.x * -1;
       this.ctx.restore();
+    }
+  }
+
+  checkProjectileCollisions() {
+    for (let i = this.demonProjectiles.length - 1; i >= 0; i--) {
+      const projectile = this.demonProjectiles[i];
+
+      if (this.char.isCollidingWithCustomHitbox(projectile)) {
+        this.handleProjectileHit();
+        projectile.destroy();
+        this.demonProjectiles.splice(i, 1);
+      } else if (projectile.isOffScreen()) {
+        projectile.destroy();
+        this.demonProjectiles.splice(i, 1);
+      }
+    }
+  }
+
+  handleProjectileHit() {
+    if (this.canCharTakeDamage()) {
+      this.char.isHurt = true;
+      this.char.takeDamage(1);
+      this.statusBar.setHealth(this.char.energy);
+      this.soundEffects.playHitSound();
     }
   }
 }

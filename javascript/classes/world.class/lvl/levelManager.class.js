@@ -93,6 +93,22 @@ class LevelManager {
     );
   }
 
+  static createGoblin(x, y) {
+    let goblinEnemy = new goblin();
+    goblinEnemy.x = x;
+    goblinEnemy.y = y;
+    goblinEnemy.startAI();
+    return goblinEnemy;
+  }
+
+  static createDemon(x, y) {
+    let demonEnemy = new demon();
+    demonEnemy.x = x;
+    demonEnemy.y = y;
+    demonEnemy.startAI();
+    return demonEnemy;
+  }
+
   static createDecorationTile(x, y) {
     return this.createSingleObject(DecorationTile, x, y);
   }

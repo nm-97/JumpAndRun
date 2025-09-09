@@ -20,7 +20,6 @@ class MoveableObject extends drawableObject {
     this.energy -= 1;
     if (this.energy <= 0) {
       this.energy = 0;
-    } else if (this.energy === 0) {
       this.isDead = true;
     } else {
       this.lastHurtTime = new Date().getTime();
@@ -32,63 +31,6 @@ class MoveableObject extends drawableObject {
    */
   handlePhysics() {
     Physics.handlePhysics(this);
-  }
-
-  playAnimation(images) {
-    let i = this.currentFrame % images.length;
-    let path = images[i];
-    this.img = this.imageCache[path];
-    this.currentFrame++;
-  }
-
-  animate() {
-    this.animationInterval = setInterval(() => {
-      if (this.isDead) {
-        this.playAnimation(this.img_death);
-      } else if (this.isHurt) {
-        this.playAnimation(this.img_hurt);
-      } else if (this.isAttacking) {
-        this.playAnimation(this.img_attack);
-      } else if (this.isJumping) {
-        this.playAnimation(this.img_jump);
-      } else if (this.isMoving) {
-        this.playAnimation(this.img_walk);
-      } else {
-        this.playAnimation(this.img_idle);
-      }
-    }, 150);
-  }
-
-  animateSpike() {
-    this.animationInterval = setInterval(() => {
-      if (this.traps_spike) {
-        this.playAnimation(this.traps_spike);
-      }
-    }, 800);
-  }
-
-  animateSpeer() {
-    this.animationInterval = setInterval(() => {
-      if (this.traps_speer && this.isExtended) {
-        this.playAnimation(this.traps_speer);
-      }
-    }, 180);
-  }
-
-  animateFireblazer() {
-    this.animationInterval = setInterval(() => {
-      if (this.traps_fire) {
-        this.playAnimation(this.traps_fire);
-      }
-    }, 120);
-  }
-
-  animateJumper() {
-    this.animationInterval = setInterval(() => {
-      if (this.traps_jumper && this.isActivated) {
-        this.playAnimation(this.traps_jumper);
-      }
-    }, 200);
   }
 
   isHurt() {

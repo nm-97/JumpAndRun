@@ -38,41 +38,11 @@ class Fireblazer extends MoveableObject {
 
     this.setCustomHitbox(40, 50, 12, 7);
 
-    this.animateFireblazer();
-  }
-
-  animateFireblazer() {
-    this.animationInterval = setInterval(() => {
-      this.currentFireboxFrame =
-        (this.currentFireboxFrame + 1) % this.traps_firebox.length;
-
-      this.currentFireFrame =
-        (this.currentFireFrame + 1) % this.traps_fire.length;
-    }, 8000 / 60);
+    Animation.animateFireblazerDual(this);
   }
 
   draw(ctx) {
-    if (this.imageCache[this.traps_firebox[this.currentFireboxFrame]]) {
-      ctx.drawImage(
-        this.imageCache[this.traps_firebox[this.currentFireboxFrame]],
-        this.x,
-        this.y,
-        this.width,
-        this.height
-      );
-    }
-
-    if (this.currentFireboxFrame >= 4 && this.currentFireboxFrame <= 8) {
-      if (this.imageCache[this.traps_fire[this.currentFireFrame]]) {
-        ctx.drawImage(
-          this.imageCache[this.traps_fire[this.currentFireFrame]],
-          this.x - 1,
-          this.y - 24,
-          this.width,
-          this.height
-        );
-      }
-    }
+    this.drawFireblazer(ctx);
   }
 
   static fireblazerTemplate = {
