@@ -1,10 +1,10 @@
 class char extends MoveableObject {
-  speed = 9;
-  jumpSpeed = 15;
-  energy = 8;
-  worldBoundaries = { minX: 120, maxX: 9216 };
-  hitboxes = {
-    normal: { width: 90, height: 128, offsetX: 30, offsetY: 32 },
+  static speed = 9;
+  static jumpSpeed = 15;
+  static energy = 8;
+  static worldBoundaries = { minX: 120, maxX: 9216 };
+  static hitboxes = {
+    normal: { width: 80, height: 90, offsetX: 40, offsetY: 70 },
     attack: { width: 130, height: 128, offsetX: 10, offsetY: 32 },
   };
 
@@ -165,6 +165,10 @@ class char extends MoveableObject {
       this.velocityY = -this.jumpSpeed;
       this.isOnGround = false;
       this.isJumping = true;
+
+      if (this.world && this.world.soundEffects) {
+        this.world.soundEffects.playJumpSound();
+      }
     }
   }
 
@@ -186,6 +190,10 @@ class char extends MoveableObject {
     this.attackFrameCount = 0;
     this.currentFrame = 0;
 
+    if (this.world && this.world.soundEffects) {
+      this.world.soundEffects.playAttackSound();
+    }
+
     this.setCustomHitbox(
       this.attackHitbox.width,
       this.attackHitbox.height,
@@ -194,6 +202,20 @@ class char extends MoveableObject {
     );
 
     Animation.animateAttack(this);
+  }
+
+  takeDamage() {
+    this.energy -= 1;
+    if (this.energy <= 0) {
+      this.energy = 0;
+      this.isDead = true;
+
+      if (this.world && this.world.soundEffects) {
+        this.world.soundEffects.playDeathSound();
+      }
+    } else {
+      this.lastHurtTime = new Date().getTime();
+    }
   }
 
   updateAttackAnimation() {

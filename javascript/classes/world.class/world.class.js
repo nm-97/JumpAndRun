@@ -29,7 +29,13 @@ class World {
     this.enemies.forEach((enemy) => {
       if (enemy instanceof demon) {
         enemy.world = this;
+      } else if (enemy instanceof goblin) {
+        enemy.world = this;
       }
+    });
+
+    this.level.getAllTraps().forEach((trap) => {
+      trap.world = this;
     });
   }
 
@@ -107,6 +113,10 @@ class World {
   handleCoinCollection(coin, index) {
     this.level.coins.splice(index, 1);
     this.coinCounter.incrementCoin();
+
+    if (this.soundEffects) {
+      this.soundEffects.playCoinSound();
+    }
   }
 
   checkAttackCollisions() {
@@ -145,8 +155,23 @@ class World {
     if (this.canCharTakeDamage()) {
       this.char.isHurt = true;
 
-      this.char.takeDamage(1);
+      // Spiele spezifische Trap-Sounds ab bei Kollision
+      if (this.soundEffects) {
+        if (trap instanceof Jumper) {
+          this.soundEffects.playJumperSound();
+          // Jumper aktivieren anstatt Schaden
+          if (!trap.isActivated) {
+            this.char.velocityY = -20;
+            trap.isActivated = true;
+            setTimeout(() => {
+              trap.isActivated = false;
+            }, 1000);
+            return; // Kein Schaden für Jumper
+          }
+        }
+      }
 
+      this.char.takeDamage(1);
       this.statusBar.setHealth(this.char.energy);
     }
   }

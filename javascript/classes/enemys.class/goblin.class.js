@@ -50,6 +50,7 @@ class goblin extends MoveableObject {
     this.attackFrameCount = 0;
     this.isAttackAnimationPlaying = false;
     this.canDealDamage = false;
+    this.lastLaughTime = 0;
     this.loadImage("../assets/enemy/enemyOne/Goblin2/idle/Idle-0.png");
     this.loadImages(this.img_idle);
     this.loadImages(this.img_walk);
@@ -63,7 +64,7 @@ class goblin extends MoveableObject {
     this.setCustomHitbox(60, 60, 42, 42);
 
     Animation.animate(this);
-    // this.startAI();
+    this.startAI();
   }
 
   startHurtAnimation() {
@@ -92,6 +93,14 @@ class goblin extends MoveableObject {
 
   aiLogic() {
     if (!this.isAttacking && !this.isHurt && !this.isDead) {
+      const currentTime = Date.now();
+      if (currentTime - this.lastLaughTime > 4000) {
+        if (this.world && this.world.soundEffects) {
+          this.world.soundEffects.playGoblinLaughSound();
+        }
+        this.lastLaughTime = currentTime;
+      }
+
       if (Math.random() < 0.05) {
         this.startAttackAnimation();
       } else {

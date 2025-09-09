@@ -9,23 +9,6 @@ class TrapLogic {
     }
   }
 
-  static triggerSpeer(speer) {
-    if (!speer.isExtended) {
-      TrapLogic.extendSpeer(speer);
-      setTimeout(() => {
-        TrapLogic.retractSpeer(speer);
-      }, 2000);
-    }
-  }
-
-  static extendSpeer(speer) {
-    speer.isExtended = true;
-  }
-
-  static retractSpeer(speer) {
-    speer.isExtended = false;
-  }
-
   static dealDamage(char, damage = 1) {
     if (char.canTakeDamage && char.canTakeDamage()) {
       char.isHurt = true;
@@ -75,20 +58,6 @@ class TrapLogic {
     return jumpers;
   }
 
-  static createSpeerGroup(templateArray, positions) {
-    const speers = [];
-    positions.forEach((pos, index) => {
-      const speer = new Speer(pos.x, pos.y);
-      if (pos.width) speer.width = pos.width;
-      if (pos.height) speer.height = pos.height;
-      if (templateArray[index]) {
-        speer.loadImage(templateArray[index]);
-      }
-      speers.push(speer);
-    });
-    return speers;
-  }
-
   static checkTrapCollision(char, trap) {
     if (
       char.isCollidingWithCustomHitbox &&
@@ -102,9 +71,6 @@ class TrapLogic {
   static handleTrapHit(char, trap) {
     if (trap instanceof Jumper) {
       TrapLogic.activateJumper(trap, char);
-    } else if (trap instanceof Speer) {
-      TrapLogic.triggerSpeer(trap);
-      TrapLogic.dealDamage(char);
     } else {
       TrapLogic.dealDamage(char);
     }

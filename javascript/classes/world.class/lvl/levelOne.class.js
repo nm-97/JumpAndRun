@@ -9,7 +9,6 @@ class levelOne {
     this.movingPlatforms = this.createMovingPlatforms();
     this.rocks = this.createRocks();
     this.spikes = this.createSpikes();
-    this.speers = this.createSpeers();
     this.fireblazers = this.createFireblazers();
     this.jumpers = this.createJumpers();
     this.enemies = this.createEnemies();
@@ -79,13 +78,6 @@ class levelOne {
     ];
   }
 
-  createSpeers() {
-    return [
-      LevelManager.createSpeer(700, 470),
-      LevelManager.createSpeer(1600, 470),
-    ];
-  }
-
   createFireblazers() {
     return [
       LevelManager.createFireblazer(2064, 510),
@@ -126,17 +118,11 @@ class levelOne {
       ...this.groundTiles,
       ...this.platformTiles,
       ...this.decorationTiles,
-      // ...this.movingPlatforms,
     ];
   }
 
   getAllTraps() {
-    return [
-      ...this.spikes,
-      ...this.speers,
-      ...this.fireblazers,
-      ...this.jumpers,
-    ];
+    return [...this.spikes, ...this.fireblazers, ...this.jumpers];
   }
 
   getAllCollectibles() {

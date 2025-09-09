@@ -63,8 +63,7 @@ class drawableObject {
       this instanceof PlatformTile ||
       this instanceof Spike ||
       this instanceof Fireblazer ||
-      this instanceof Jumper ||
-      this instanceof Speer
+      this instanceof Jumper
     ) {
       this.drawCustomHitbox(ctx);
     }

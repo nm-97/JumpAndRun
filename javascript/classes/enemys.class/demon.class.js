@@ -34,14 +34,13 @@ class demon extends MoveableObject {
   ];
 
   img_hurt = [
-    "../assets/enemy/enemyTwo/Imp2/Without_shadow/hurt/Imp2_Hurt_without_shadow-0.png",
-    "../assets/enemy/enemyTwo/Imp2/Without_shadow/hurt/Imp2_Hurt_without_shadow-1.png",
-    "../assets/enemy/enemyTwo/Imp2/Without_shadow/hurt/Imp2_Hurt_without_shadow-2.png",
-    "../assets/enemy/enemyTwo/Imp2/Without_shadow/hurt/Imp2_Hurt_without_shadow-3.png",
+    "../assets/enemy/enemyTwo/Imp2/Without_shadow/hurt/Imp2_Hurt__without_shadow-0.png",
+    "../assets/enemy/enemyTwo/Imp2/Without_shadow/hurt/Imp2_Hurt__without_shadow-1.png",
+    "../assets/enemy/enemyTwo/Imp2/Without_shadow/hurt/Imp2_Hurt__without_shadow-2.png",
+    "../assets/enemy/enemyTwo/Imp2/Without_shadow/hurt/Imp2_Hurt__without_shadow-3.png",
   ];
 
   img_attack = [
-    "../assets/enemy/enemyTwo/Imp2/Without_shadow/attack/Imp2_Attack_without_shadow-0.png",
     "../assets/enemy/enemyTwo/Imp2/Without_shadow/attack/Imp2_Attack_without_shadow-1.png",
     "../assets/enemy/enemyTwo/Imp2/Without_shadow/attack/Imp2_Attack_without_shadow-2.png",
     "../assets/enemy/enemyTwo/Imp2/Without_shadow/attack/Imp2_Attack_without_shadow-3.png",

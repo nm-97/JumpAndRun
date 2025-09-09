@@ -59,6 +59,22 @@ class AudioManager {
     }
   }
 
+  playSoundWithVolume(soundArray, volume) {
+    let path = soundArray[0];
+    let audio = this.audioCache[path];
+
+    if (audio) {
+      const originalVolume = audio.volume;
+      audio.volume = volume;
+      audio.currentTime = 0;
+      audio.play();
+
+      setTimeout(() => {
+        audio.volume = originalVolume;
+      }, 100);
+    }
+  }
+
   stopCurrentMusic() {
     if (this.currentAudio) {
       this.currentAudio.pause();

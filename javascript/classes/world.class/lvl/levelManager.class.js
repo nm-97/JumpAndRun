@@ -129,10 +129,6 @@ class LevelManager {
     return this.createSingleObject(Jumper, x, y);
   }
 
-  static createSpeer(x, y) {
-    return this.createSingleObject(Speer, x, y);
-  }
-
   static createHealthPotion(x, y) {
     return this.createSingleObject(HealthPotion, x, y);
   }

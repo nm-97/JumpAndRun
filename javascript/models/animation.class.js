@@ -105,24 +105,32 @@ class Animation {
     obj.animationInterval = setInterval(() => {
       if (obj.traps_spike) {
         Animation.playAnimation(obj, obj.traps_spike);
-      }
-    }, 800);
-  }
 
-  static animateSpeer(obj) {
-    obj.animationInterval = setInterval(() => {
-      if (obj.traps_speer && obj.isExtended) {
-        Animation.playAnimation(obj, obj.traps_speer);
+        if (obj.world && obj.world.soundEffects && !obj.soundPlaying) {
+          obj.world.soundEffects.playSpikeSound();
+          obj.soundPlaying = true;
+          setTimeout(() => {
+            obj.soundPlaying = false;
+          }, 1275);
+        }
       }
-    }, 180);
+    }, 8000 / 60);
   }
 
   static animateFireblazer(obj) {
     obj.animationInterval = setInterval(() => {
       if (obj.traps_fire) {
         Animation.playAnimation(obj, obj.traps_fire);
+
+        if (obj.world && obj.world.soundEffects && !obj.soundPlaying) {
+          obj.world.soundEffects.playFireBlazerSound();
+          obj.soundPlaying = true;
+          setTimeout(() => {
+            obj.soundPlaying = false;
+          }, 8000 / 60);
+        }
       }
-    }, 120);
+    }, 8000 / 60);
   }
 
   static animateJumper(obj) {
@@ -145,6 +153,15 @@ class Animation {
   static animateSpikeCustom(obj) {
     obj.animationInterval = setInterval(() => {
       Animation.playAnimation(obj, obj.traps_spike);
+      d;
+
+      if (obj.world && obj.world.soundEffects && !obj.soundPlaying) {
+        obj.world.soundEffects.playSpikeSound();
+        obj.soundPlaying = true;
+        setTimeout(() => {
+          obj.soundPlaying = false;
+        }, 1000 / 60);
+      }
     }, 1000 / 10);
   }
 
@@ -152,12 +169,6 @@ class Animation {
     obj.animationInterval = setInterval(() => {
       Animation.playAnimation(obj, obj.traps_jumper);
     }, 1000 / 6);
-  }
-
-  static animateSpeerCustom(obj) {
-    obj.animationInterval = setInterval(() => {
-      Animation.playAnimation(obj, obj.traps_speer);
-    }, 1000 / 8);
   }
 
   static animateCoin(obj) {
