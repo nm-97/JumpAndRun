@@ -1,4 +1,16 @@
+// Ensure endboss is available
+// If using ES modules:
+// import endboss from '../../enemys.class/endboss.class.js';
+// If using browser globals, ensure script is loaded before this file.
+// For classic browser usage, reference via window.endboss if needed.
+
+// For browser script order, just declare:
+// Assumes endboss is globally available
+
 class levelOne {
+  getAllDecorations() {
+    return this.decorationTiles;
+  }
   constructor() {
     this.background = BackgroundManager.createRepeatingBackground();
     this.groundTiles = this.createGroundTiles();
@@ -22,11 +34,22 @@ class levelOne {
       ...LevelManager.createThreePlatformGroup(850, 300),
       ...LevelManager.createThreePlatformGroup(650, 240),
       ...LevelManager.createThreePlatformGroup(1350, 430),
+      ...LevelManager.createThreePlatformGroup(1700, 380),
+      ...LevelManager.createFourPlatformGroup(2000, 320),
+      ...LevelManager.createThreePlatformGroup(2300, 250),
+      ...LevelManager.createThreePlatformGroup(2600, 400),
+      ...LevelManager.createThreePlatformGroup(2900, 320),
     ];
   }
 
   createCoins() {
-    return [LevelManager.createCoin(687, 210)];
+    return [
+      LevelManager.createCoin(687, 210),
+      LevelManager.createCoin(1100, 330),
+      LevelManager.createCoin(1700, 360),
+      LevelManager.createCoin(2300, 230),
+      LevelManager.createCoin(2900, 300),
+    ];
   }
 
   createEnemies() {
@@ -48,23 +71,23 @@ class levelOne {
 
   createHealthPotions() {
     return [
-      // LevelManager.createHealthPotion(1000, 500),
-      // LevelManager.createHealthPotion(2200, 450),
+      LevelManager.createHealthPotion(1200, 500),
+      LevelManager.createHealthPotion(2500, 450),
     ];
   }
 
   createMovingPlatforms() {
     return [
-      // LevelManager.createMovingPlatform(900, 400, 1100),
-      // LevelManager.createMovingPlatform(2000, 350, 2300),
+      LevelManager.createMovingPlatform(900, 400, 1100),
+      LevelManager.createMovingPlatform(2000, 350, 2300),
     ];
   }
 
   createRocks() {
     return [
-      // LevelManager.createRock(350, 520),
-      // LevelManager.createRock(1150, 520),
-      // LevelManager.createRock(2350, 520),
+      LevelManager.createRock(350, 520),
+      LevelManager.createRock(1150, 520),
+      LevelManager.createRock(2350, 520),
     ];
   }
 
@@ -75,6 +98,9 @@ class levelOne {
       LevelManager.createSpike(1096, 490),
       LevelManager.createSpike(1196, 490),
       LevelManager.createSpike(1296, 490),
+      LevelManager.createSpike(1700, 550),
+      LevelManager.createSpike(2000, 550),
+      LevelManager.createSpike(2300, 550),
     ];
   }
 
@@ -82,13 +108,15 @@ class levelOne {
     return [
       LevelManager.createFireblazer(2064, 510),
       LevelManager.createFireblazer(2100, 510),
+      LevelManager.createFireblazer(2600, 520),
     ];
   }
 
   createJumpers() {
     return [
-      // LevelManager.createJumper(800, 502),
-      // LevelManager.createJumper(1800, 502),
+      LevelManager.createJumper(800, 502),
+      LevelManager.createJumper(1800, 502),
+      LevelManager.createJumper(2700, 502),
     ];
   }
 
@@ -130,11 +158,16 @@ class levelOne {
   }
 
   getAllInteractables() {
-    return [];
-  }
-
-  getAllDecorations() {
-    return [...this.rocks];
+    return [
+      LevelManager.createGoblin(700, 450),
+      LevelManager.createDemon(1050, 270),
+      LevelManager.createGoblin(1200, 390),
+      LevelManager.createDemon(1600, 390),
+      LevelManager.createGoblin(2000, 390),
+      LevelManager.createGoblin(2300, 230),
+      LevelManager.createDemon(2600, 320),
+      LevelManager.createGoblin(2900, 300),
+    ];
   }
 
   getBackground() {

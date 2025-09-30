@@ -96,6 +96,11 @@ class demon extends MoveableObject {
     this.currentFrame = 0;
     this.canDealDamage = true;
 
+    // Spiele Demon Attack Sound
+    if (this.world && this.world.soundEffects) {
+      this.world.soundEffects.playDemonAttackSound();
+    }
+
     this.shootProjectile();
     Animation.animateAttack(this);
   }
@@ -107,6 +112,9 @@ class demon extends MoveableObject {
         this.x - 10,
         this.y + this.height / 2 - 16
       );
+
+      // Setze World-Referenz für Pause-Funktionalität
+      projectile.world = this.world;
 
       this.projectiles.push(projectile);
       this.lastShotTime = currentTime;
@@ -134,6 +142,11 @@ class demon extends MoveableObject {
   }
 
   aiLogic() {
+    // Blockiere AI wenn das Spiel pausiert ist
+    if (this.world && this.world.isPaused) {
+      return;
+    }
+
     if (!this.isHurt && !this.isDead) {
       this.updateProjectiles();
 

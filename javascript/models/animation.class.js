@@ -36,8 +36,8 @@ class Animation {
 
   static animate(obj) {
     obj.animationInterval = setInterval(() => {
-      if (obj.isDead) {
-        Animation.playAnimation(obj, obj.img_death);
+      if (obj.isDead && !obj.isDeathAnimationPlaying) {
+        Animation.animateDeath(obj);
       } else if (obj.isJumping) {
         Animation.playAnimation(obj, obj.img_jump);
       } else if (obj.isMoving) {
@@ -69,6 +69,38 @@ class Animation {
         obj.attackAnimationInterval = null;
       }
     }, attackSpeed);
+  }
+
+  static animateDeath(obj) {
+    if (obj.deathAnimationInterval) {
+      clearInterval(obj.deathAnimationInterval);
+    }
+
+    obj.isDeathAnimationPlaying = true;
+    obj.deathFrameCount = 0;
+
+    obj.deathAnimationInterval = setInterval(() => {
+      Animation.playDeathAnimation(obj, obj.img_death);
+    }, 150);
+  }
+
+  static playDeathAnimation(obj, images) {
+    if (obj.isDeathAnimationPlaying) {
+      let i = obj.deathFrameCount;
+      if (i < images.length) {
+        let path = images[i];
+        obj.img = obj.imageCache[path];
+        obj.deathFrameCount++;
+      } else {
+        // Death-Animation beendet - bleibe beim letzten Frame
+        obj.isDeathAnimationPlaying = false;
+        clearInterval(obj.deathAnimationInterval);
+        obj.deathAnimationInterval = null;
+
+        // Für den Charakter wird das Game Over Screen durch takeDamage() setTimeout gesteuert
+        // Keine automatische Aktivierung hier
+      }
+    }
   }
 
   static playHurtAnimation(obj, images) {

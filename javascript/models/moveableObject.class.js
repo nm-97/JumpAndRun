@@ -39,15 +39,96 @@ class MoveableObject extends drawableObject {
     return timePassed < 1.75;
   }
 
-  moveRight() {
-    setInterval(() => {
-      this.x += this.speed;
+  canMove() {
+    return !(this.world && this.world.isPaused);
+  }
+
+  startMovement(direction = "left") {
+    this.stopMovement();
+    this.movementInterval = setInterval(() => {
+      if (!this.canMove()) return;
+      if (direction === "left") {
+        this.x -= this.speed;
+      } else if (direction === "right") {
+        this.x += this.speed;
+      }
     }, 8000 / 60);
   }
 
+  stopMovement() {
+    if (this.movementInterval) {
+      clearInterval(this.movementInterval);
+      this.movementInterval = null;
+    }
+  }
+
+  moveRight() {
+    this.startMovement("right");
+  }
+
   moveLeft() {
-    setInterval(() => {
-      this.x -= this.speed;
-    }, 8000 / 60);
+    this.startMovement("left");
+  }
+
+  destroy() {
+    this.stopMovement();
+    if (this.animationInterval) {
+      clearInterval(this.animationInterval);
+      this.animationInterval = null;
+    }
+  }
+
+  /**
+   * Setzt die Hitbox für das Objekt zentral
+   * @param {number} width
+   * @param {number} height
+   * @param {number} offsetX
+   * @param {number} offsetY
+   */
+  setCustomHitbox(width, height, offsetX, offsetY) {
+    this.hitbox = {
+      width,
+      height,
+      offsetX,
+      offsetY,
+    };
+  }
+  /**
+   * Pausiert alle relevanten Intervals (Bewegung, Animation, Attacke, Hurt, etc.)
+   */
+  pauseAllIntervals() {
+    if (this.movementInterval) {
+      clearInterval(this.movementInterval);
+      this.movementInterval = null;
+    }
+    if (this.animationInterval) {
+      clearInterval(this.animationInterval);
+      this.animationInterval = null;
+    }
+    if (this.attackAnimationInterval) {
+      clearInterval(this.attackAnimationInterval);
+      this.attackAnimationInterval = null;
+    }
+    if (this.hurtAnimationInterval) {
+      clearInterval(this.hurtAnimationInterval);
+      this.hurtAnimationInterval = null;
+    }
+  }
+
+  /**
+   * Setzt alle pausierten Intervals wieder fort (sofern Logik vorhanden)
+   * Diese Methode muss ggf. in Kindklassen überschrieben werden, um Animationen neu zu starten.
+   */
+  resumeAllIntervals() {
+    if (typeof this.startMovement === "function") {
+      this.startMovement();
+    }
+    if (
+      typeof Animation !== "undefined" &&
+      typeof Animation.animate === "function"
+    ) {
+      Animation.animate(this);
+    }
+    // Attacke/Hurt ggf. in Kindklassen
   }
 }

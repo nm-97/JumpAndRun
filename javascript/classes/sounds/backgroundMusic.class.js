@@ -1,6 +1,6 @@
 class BackgroundMusic extends AudioManager {
   music_menu = [
-    "../assets/sounds/backgroundMusic/landingMusic/Bit Bouncer.mp3",
+    "../assets/sounds/backgroundMusic/landingMusic/Bit Bouncer.wav",
   ];
   music_level1 = [
     "../assets/sounds/backgroundMusic/levelMusic/8 bit Retro Game - 1 - Red Octopus IPI 00366181942 ZAIKS-Poland.mp3",

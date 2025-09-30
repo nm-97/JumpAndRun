@@ -98,4 +98,22 @@ class SoundEffects extends AudioManager {
       this.playSound(this.sounds_goblin_laugh);
     }
   }
+
+  playGoblinDeathSound() {
+    if (this.sounds_goblin_death && this.sounds_goblin_death.length > 0) {
+      this.playSound(this.sounds_goblin_death);
+    }
+  }
+
+  playGoblinAttackSound() {
+    if (this.sounds_goblin_attack && this.sounds_goblin_attack.length > 0) {
+      this.playSound(this.sounds_goblin_attack);
+    }
+  }
+
+  playDemonAttackSound() {
+    if (this.sounds_demon_attack && this.sounds_demon_attack.length > 0) {
+      this.playSound(this.sounds_demon_attack);
+    }
+  }
 }

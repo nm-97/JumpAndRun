@@ -82,6 +82,11 @@ class goblin extends MoveableObject {
     this.currentFrame = 0;
     this.canDealDamage = true;
 
+    // Spiele Goblin Attack Sound
+    if (this.world && this.world.soundEffects) {
+      this.world.soundEffects.playGoblinAttackSound();
+    }
+
     Animation.animateAttack(this);
   }
 
@@ -92,8 +97,14 @@ class goblin extends MoveableObject {
   }
 
   aiLogic() {
+    // Blockiere AI wenn das Spiel pausiert ist
+    if (this.world && this.world.isPaused) {
+      return;
+    }
+
     if (!this.isAttacking && !this.isHurt && !this.isDead) {
       const currentTime = Date.now();
+      // Goblin lacht alle 4 Sekunden
       if (currentTime - this.lastLaughTime > 4000) {
         if (this.world && this.world.soundEffects) {
           this.world.soundEffects.playGoblinLaughSound();
@@ -101,11 +112,35 @@ class goblin extends MoveableObject {
         this.lastLaughTime = currentTime;
       }
 
-      if (Math.random() < 0.05) {
-        this.startAttackAnimation();
-      } else {
-        this.isMoving = true;
-        this.moveLeft();
+      // Zufällige Aktion: 0 = stehen, 1 = links, 2 = rechts, 3 = springen, 4 = angreifen
+      const action = Math.floor(Math.random() * 5);
+      switch (action) {
+        case 0:
+          // Stehen bleiben
+          this.isMoving = false;
+          break;
+        case 1:
+          // Nach links laufen
+          this.otherDirection = false;
+          this.isMoving = true;
+          this.moveLeft();
+          break;
+        case 2:
+          // Nach rechts laufen
+          this.otherDirection = true;
+          this.isMoving = true;
+          this.moveRight();
+          break;
+        case 3:
+          // Springen (wenn Methode vorhanden)
+          if (typeof this.jump === 'function') {
+            this.jump();
+          }
+          break;
+        case 4:
+          // Angreifen
+          this.startAttackAnimation();
+          break;
       }
     }
   }

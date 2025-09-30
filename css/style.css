@@ -1,3 +1,99 @@
+@media (min-width: 1025px) {
+  #touch-ui {
+    display: none !important;
+  }
+}
+#rotate-warning {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  color: #ffd700;
+  font-size: 1.4em;
+  font-family: ByteBounce, Arial, sans-serif;
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-top: 40vh;
+}
+
+@media only screen and (max-width: 600px) and (orientation: portrait) {
+  #rotate-warning {
+    display: flex;
+  }
+  #touch-ui,
+  #gameCanvas {
+    display: none !important;
+  }
+}
+/* Responsive Design für kleine Screens */
+@media (max-width: 600px) {
+  canvas {
+    width: 100vw !important;
+    height: 60vw !important;
+    max-width: 100vw;
+    max-height: 70vh;
+  }
+}
+
+@media (max-width: 400px) {
+  canvas {
+    width: 100vw !important;
+    height: 70vw !important;
+    max-width: 100vw;
+    max-height: 60vh;
+  }
+}
+
+@media (max-width: 320px) {
+  canvas {
+    width: 100vw !important;
+    height: 80vw !important;
+    max-width: 100vw;
+    max-height: 50vh;
+  }
+}
+
+/* Touch-UI-Container */
+#touch-ui {
+  position: fixed;
+  bottom: 10px;
+  left: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+.touch-btn {
+  width: 48px;
+  height: 48px;
+  background: #333;
+  color: #fff;
+  border-radius: 50%;
+  border: 2px solid #ffd700;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  user-select: none;
+  touch-action: manipulation;
+}
+@font-face {
+  font-family: "ByteBounce";
+  src: url("../assets/font/ByteBounce.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 body {
   display: flex;
   flex-direction: column;

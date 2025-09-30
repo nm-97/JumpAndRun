@@ -7,6 +7,7 @@ class char extends MoveableObject {
     normal: { width: 80, height: 90, offsetX: 40, offsetY: 70 },
     attack: { width: 130, height: 128, offsetX: 10, offsetY: 32 },
   };
+  dd;
 
   y = 550 - this.height;
   speed = char.speed;
@@ -18,6 +19,9 @@ class char extends MoveableObject {
   attackFrameCount = 0;
   isAttackAnimationPlaying = false;
   fKeyPressed = false;
+
+  deathFrameCount = 0;
+  isDeathAnimationPlaying = false;
 
   img_idle = [
     "../assets/char/animation/idle/idle-0.png",
@@ -114,10 +118,10 @@ class char extends MoveableObject {
 
   setupHitbox() {
     this.setCustomHitbox(
-      this.normalHitbox.width,
-      this.normalHitbox.height,
-      this.normalHitbox.offsetX,
-      this.normalHitbox.offsetY
+      char.hitboxes.normal.width,
+      char.hitboxes.normal.height,
+      char.hitboxes.normal.offsetX,
+      char.hitboxes.normal.offsetY
     );
   }
 
@@ -137,6 +141,11 @@ class char extends MoveableObject {
   }
 
   handleInput() {
+    // Blockiere Input wenn das Spiel pausiert ist
+    if (this.world && this.world.isPaused) {
+      return;
+    }
+
     Physics.initializePhysics(this);
     this.isMoving = false;
 
@@ -190,15 +199,19 @@ class char extends MoveableObject {
     this.attackFrameCount = 0;
     this.currentFrame = 0;
 
-    if (this.world && this.world.soundEffects) {
-      this.world.soundEffects.playAttackSound();
+    if (
+      this.world &&
+      this.world.audioService &&
+      typeof this.world.audioService.playAttackSound === "function"
+    ) {
+      this.world.audioService.playAttackSound();
     }
 
     this.setCustomHitbox(
-      this.attackHitbox.width,
-      this.attackHitbox.height,
-      this.attackHitbox.offsetX,
-      this.attackHitbox.offsetY
+      char.hitboxes.attack.width,
+      char.hitboxes.attack.height,
+      char.hitboxes.attack.offsetX,
+      char.hitboxes.attack.offsetY
     );
 
     Animation.animateAttack(this);
@@ -210,8 +223,35 @@ class char extends MoveableObject {
       this.energy = 0;
       this.isDead = true;
 
-      if (this.world && this.world.soundEffects) {
-        this.world.soundEffects.playDeathSound();
+      // Starte Death-Sequenz in der World (stoppt andere Sounds, aber nicht Death Sound)
+      if (this.world && typeof this.world.startDeathSequence === "function") {
+        this.world.startDeathSequence();
+      }
+
+      // Spiele sofort Death Sound ab
+      if (
+        this.world &&
+        this.world.audioService &&
+        typeof this.world.audioService.playDeathSound === "function"
+      ) {
+        this.world.audioService.playDeathSound();
+      }
+
+      // Death Animation wird automatisch durch Animation.animate() gestartet
+      // da isDead = true ist
+
+      // Zeige Game Over Screen nach kurzer Verzögerung (nur wenn nicht bereits Game Over)
+      // Genug Zeit für Death Animation und Sound
+      if (this.world && !this.world.isGameOver) {
+        setTimeout(() => {
+          if (
+            this.world &&
+            typeof this.world.showGameOverScreen === "function" &&
+            !this.world.isGameOver
+          ) {
+            this.world.showGameOverScreen();
+          }
+        }, 2000); // 2 Sekunden Verzögerung für Death Sound und Animation
       }
     } else {
       this.lastHurtTime = new Date().getTime();
