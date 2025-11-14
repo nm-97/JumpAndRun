@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script src="./javascript/models/drawable.object.class.js"></script>
+    <script src="./javascript/models/physics.class.js"></script>
+    <script src="./javascript/models/animation.class.js"></script>
+    <script src="./javascript/models/statusBar.class.js"></script>
+    <script src="./javascript/models/coinCounter.class.js"></script>
+    <script src="./javascript/models/moveableObject.class.js"></script>
+    <script src="./javascript/models/audio.class.js"></script>
+    <script src="./javascript/classes/sounds/backgroundMusic.class.js"></script>
+    <script src="./javascript/classes/sounds/soundEffects.class.js"></script>
+    <script src="./javascript/classes/keyboard/keyboard.class.js"></script>
+    <script src="./javascript/classes/world.class/background/backgroundObjects.class.js"></script>
+    <script src="./javascript/classes/levelObjects/tiles/groundTile.class.js"></script>
+    <script src="./javascript/classes/levelObjects/tiles/platformTile.class.js"></script>
+    <script src="./javascript/classes/levelObjects/tiles/decorationTile.class.js"></script>
+    <script src="./javascript/classes/levelObjects/tiles/movingPlatform.class.js"></script>
+    <script src="./javascript/classes/levelObjects/tiles/rock.class.js"></script>
+    <script src="./javascript/classes/levelObjects/collectibles/coin.class.js"></script>
+    <script src="./javascript/classes/levelObjects/collectibles/healthPotion.class.js"></script>
+    <script src="./javascript/classes/levelObjects/traps/trap.class.js"></script>
+    <script src="./javascript/classes/levelObjects/traps/spike.class.js"></script>
+    <script src="./javascript/classes/levelObjects/traps/fireblazer.class.js"></script>
+    <script src="./javascript/classes/levelObjects/traps/jumper.class.js"></script>
+    <script src="./javascript/classes/world.class/lvl/levelManager.class.js"></script>
+    <script src="./javascript/classes/world.class/lvl/levelOne.class.js"></script>
+    <script src="./javascript/classes/char.class/char.class.js"></script>
+    <script src="./javascript/classes/enemys.class/demon.class.js"></script>
+    <script src="./javascript/classes/enemys.class/demonProjectile.class.js"></script>
+    <script src="./javascript/classes/enemys.class/endboss.class.js"></script>
+    <script src="./javascript/classes/enemys.class/goblin.class.js"></script>
+    <script src="./javascript/classes/ui/guiManager.class.js"></script>
+    <script src="./javascript/classes/ui/welcomeScreen.class.js"></script>
+    <script src="./javascript/classes/core/gameStateManager.class.js"></script>
+    <script src="./javascript/classes/audio/audioService.class.js"></script>
+    <script src="./javascript/classes/world.class/world.class.js"></script>
+    <script src="./javascript/game.js"></script>
+    <title>Jump and Run</title>
+  </head>
+  <body onload="init()">
+    <canvas id="gameCanvas" width="1024px" height="600px"> </canvas>
+    <div id="touch-ui">
+      <button class="touch-btn" id="touch-left" title="Links">&#8592;</button>
+      <button class="touch-btn" id="touch-right" title="Rechts">&#8594;</button>
+      <button class="touch-btn" id="touch-jump" title="Springen">
+        &#8679;
+      </button>
+      <button class="touch-btn" id="touch-attack" title="Angriff">
+        &#9876;
+      </button>
+      <button class="touch-btn" id="touch-menu" title="Menü">&#9776;</button>
+    </div>
+    <div id="rotate-warning">
+      <span
+        >Bitte drehe dein Gerät ins Querformat für das beste
+        Spielerlebnis!</span
+      >
+    </div>
+  </body>
+</html>

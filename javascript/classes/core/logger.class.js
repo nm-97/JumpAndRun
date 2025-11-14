@@ -1,14 +1,14 @@
 class Logger {
   static log(message) {
-    console.log(`[LOG] ${message}`);
+    // Logging disabled for production
   }
 
   static error(message) {
-    console.error(`[ERROR] ${message}`);
+    // Error logging disabled for production
   }
 
   static warn(message) {
-    console.warn(`[WARN] ${message}`);
+    // Warning logging disabled for production
   }
 }
 

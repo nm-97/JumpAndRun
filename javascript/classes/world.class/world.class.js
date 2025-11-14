@@ -14,7 +14,6 @@ class World {
   animationId = null;
 
   constructor(canvas, keyboard, gameStateManager, audioService) {
-    console.log("Creating World instance...");
 
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
@@ -38,7 +37,6 @@ class World {
 
   stopAllIntervals() {
     // Globale Cleanup-Funktion für alle laufenden Intervals
-    console.log("Stopping all intervals...");
 
     // Stoppe das aktuelle Collision-Interval falls vorhanden
     if (this.collisionInterval) {
@@ -52,11 +50,9 @@ class World {
       clearInterval(i);
     }
 
-    console.log("All intervals stopped");
   }
 
   initializeGame() {
-    console.log("Initializing game state...");
 
     this.level = new levelOne();
     this.enemies = this.level.getEnemies();
@@ -86,7 +82,6 @@ class World {
   }
 
   startLevelMusic() {
-    console.log("Starting level music...");
     if (this.backgroundMusic && this.backgroundMusic.music_level1) {
       this.audioService.setMusicVolume(
         this.audioService.backgroundMusic.musicVolume
@@ -166,7 +161,6 @@ class World {
   startCollisionChecking() {
     // Stoppe vorheriges Interval falls vorhanden
     if (this.collisionInterval) {
-      console.log(
         "Stopping previous collision interval:",
         this.collisionInterval
       );
@@ -184,7 +178,6 @@ class World {
       }
     }, 1000 / 60);
 
-    console.log("Started new collision interval:", this.collisionInterval);
   }
 
   checkEnemyCollisions() {
@@ -234,7 +227,6 @@ class World {
     this.coinCounter.incrementCoin();
 
     if (this.soundEffects) {
-      console.log("Playing coin sound - Interval ID:", this.collisionInterval);
       if (
         this.audioService &&
         typeof this.audioService.playCoinSound === "function"
@@ -387,7 +379,6 @@ class World {
   }
 
   startDeathSequence() {
-    console.log("Starting death sequence...");
 
     // Aktiviere Death-Modus (Spiel läuft noch für Animation, aber keine Kollisionen)
     this.isDying = true;
@@ -403,7 +394,6 @@ class World {
   }
 
   showGameOverScreen() {
-    console.log("Activating Game Over Screen...");
 
     // Stoppt das Spiel komplett und aktiviert Game Over Modus
     this.gameRunning = false;
@@ -414,7 +404,6 @@ class World {
     this.stopAllIntervals();
 
     // Stoppe alle Sound-Effekte und Musik komplett
-    console.log("Stopping all sounds...");
     if (
       this.soundEffects &&
       typeof this.soundEffects.stopEverything === "function"
@@ -432,7 +421,6 @@ class World {
     // Stoppe alle Animationen der Charaktere und Feinde
     this.stopAllAnimations();
 
-    console.log(
       "Game Over Screen activated - all sounds, animations and intervals stopped"
     );
   }
@@ -463,7 +451,6 @@ class World {
   }
 
   restart() {
-    console.log("Restarting game - resetting current instance...");
 
     // WICHTIG: Zuerst alle Intervals stoppen
     this.stopAllIntervals();
@@ -497,13 +484,11 @@ class World {
       // Starte Collision Checking neu
       this.startCollisionChecking();
 
-      console.log("Game restarted successfully");
     }, 100);
   }
 
   quit() {
     // Gehe zurück zum Welcome Screen
-    console.log("Returning to welcome screen...");
 
     // Stoppe das aktuelle Spiel
     this.gameRunning = false;
@@ -541,7 +526,6 @@ class World {
           const rect = this.canvas.getBoundingClientRect();
           const x = event.clientX - rect.left;
           const y = event.clientY - rect.top;
-          console.log("Click detected at:", x, y);
           this.guiManager.handleClick(x, y);
         }
       };
@@ -593,7 +577,6 @@ class World {
   }
 
   pauseGame() {
-    console.log("Pausing game...");
     this.isPaused = true;
     this.showingInGameMenu = true;
     this.gameRunning = false;
@@ -624,13 +607,11 @@ class World {
     // Stoppe alle Sound-Effekte (aber NICHT die Hintergrundmusik)
     this.audioService.stopEffects();
 
-    console.log(
       "Game paused - all animations and sound effects stopped, background music continues"
     );
   }
 
   resumeGame() {
-    console.log("Resuming game...");
     this.isPaused = false;
     this.showingInGameMenu = false;
     this.showingInGameOptions = false;
@@ -656,11 +637,9 @@ class World {
       .getAllTraps()
       .forEach((trap) => trap.resumeAllIntervals && trap.resumeAllIntervals());
 
-    console.log("Game resumed - all animations and systems restarted");
   }
 
   showInGameOptions() {
-    console.log("Showing in-game options...");
     this.showingInGameMenu = false;
     this.showingInGameOptions = true;
   }
@@ -766,10 +745,8 @@ class World {
 
     // Stoppe Traps Animationen
     const traps = this.level.getAllTraps();
-    console.log(`Pausing ${traps.length} traps...`);
     traps.forEach((trap) => {
       if (trap.animationInterval) {
-        console.log(`Pausing trap: ${trap.constructor.name}`);
         clearInterval(trap.animationInterval);
         trap.animationInterval = null;
         trap.isPausedByMenu = true;
@@ -789,10 +766,8 @@ class World {
 
     // Starte Traps Animationen wieder
     const traps = this.level.getAllTraps();
-    console.log(`Resuming ${traps.length} traps...`);
     traps.forEach((trap) => {
       if (trap.isPausedByMenu) {
-        console.log(`Resuming trap: ${trap.constructor.name}`);
         // Je nach Trap-Typ die entsprechende Animation starten
         if (trap.constructor.name === "Spike") {
           Animation.animateSpike(trap);
@@ -806,7 +781,6 @@ class World {
             Animation.animateSpeer(trap);
           }
         } else {
-          console.log(`Unknown trap type: ${trap.constructor.name}`);
         }
         trap.isPausedByMenu = false;
       }
@@ -842,7 +816,6 @@ class World {
   }
 
   quitToMainMenu() {
-    console.log("Quitting to main menu...");
 
     // Stoppe alles
     this.stopAllIntervals();
@@ -872,7 +845,6 @@ class World {
     if (typeof window.returnToWelcomeScreen === "function") {
       window.returnToWelcomeScreen();
     } else {
-      console.log("No return to welcome screen function available");
       // Fallback: Seite neu laden
       location.reload();
     }

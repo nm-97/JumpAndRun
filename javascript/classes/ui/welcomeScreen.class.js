@@ -54,13 +54,11 @@ class WelcomeScreen {
   showOptions() {
     this.currentScreen = "options";
     this.gameStateManager.setState("options");
-    console.log("Showing options screen");
   }
 
   showWelcome() {
     this.currentScreen = "welcome";
     this.gameStateManager.setState("welcome");
-    console.log("Showing welcome screen");
     // Starte Landing Music wieder
     this.audioService.backgroundMusic.playMusic(
       this.audioService.backgroundMusic.music_menu
@@ -82,7 +80,6 @@ class WelcomeScreen {
 
     // Stoppe Landing Music
     if (this.musicStarted) {
-      console.log("Stopping landing music...");
       this.audioService.backgroundMusic.stopCurrentMusic();
       this.musicStarted = false;
     }
@@ -144,7 +141,6 @@ class WelcomeScreen {
 
   startLandingMusicOnClick() {
     if (!this.musicStarted && this.currentScreen === "welcome") {
-      console.log("Starting landing music on user interaction...");
       this.audioService.backgroundMusic.playMusic(
         this.audioService.backgroundMusic.music_menu
       );
@@ -157,12 +153,6 @@ class WelcomeScreen {
     const soundEffectsVolume = this.guiManager.getSoundEffectsVolume();
     const musicVolume = this.guiManager.getMusicVolume();
 
-    console.log(
-      `Initializing volumes: Sound Effects=${Math.round(
-        soundEffectsVolume * 100
-      )}%, Music=${Math.round(musicVolume * 100)}%`
-    );
-
     // Setze Volume für AudioService
     this.audioService.setMusicVolume(musicVolume);
     this.audioService.setSoundEffectsVolume(soundEffectsVolume);
@@ -172,12 +162,6 @@ class WelcomeScreen {
     if (this.world) {
       const soundEffectsVolume = this.guiManager.getSoundEffectsVolume();
       const musicVolume = this.guiManager.getMusicVolume();
-
-      console.log(
-        `Transferring volumes to World: Sound Effects=${Math.round(
-          soundEffectsVolume * 100
-        )}%, Music=${Math.round(musicVolume * 100)}%`
-      );
 
       // Setze Volume für AudioService
       this.audioService.setSoundEffectsVolume(soundEffectsVolume);

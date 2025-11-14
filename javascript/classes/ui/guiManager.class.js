@@ -57,7 +57,6 @@ class GUIManager {
     // Prüfe ob Font bereits verfügbar ist (über CSS geladen)
     if (document.fonts.check("16px ByteBounce")) {
       this.fontLoaded = true;
-      console.log("ByteBounce font already available");
       return;
     }
 
@@ -72,10 +71,8 @@ class GUIManager {
       .then((loadedFont) => {
         document.fonts.add(loadedFont);
         this.fontLoaded = true;
-        console.log("ByteBounce font loaded successfully");
       })
       .catch((error) => {
-        console.error("Error loading ByteBounce font:", error);
         this.fontLoaded = false;
       });
 
@@ -83,7 +80,6 @@ class GUIManager {
     document.fonts.ready.then(() => {
       if (document.fonts.check("16px ByteBounce")) {
         this.fontLoaded = true;
-        console.log("ByteBounce font ready");
       }
     });
   }
@@ -834,10 +830,6 @@ class GUIManager {
   }
 
   applySoundEffectsVolume(volume) {
-    console.log(
-      `Setting sound effects volume to: ${Math.round(volume * 100)}%`
-    );
-
     // Speichere Volume-Wert in GUIManager
     this.soundEffectsVolume = volume;
 
@@ -847,18 +839,11 @@ class GUIManager {
       window.world.soundEffects &&
       typeof window.world.soundEffects.setSoundEffectsVolume === "function"
     ) {
-      console.log("Applying sound effects volume to World...");
       window.world.soundEffects.setSoundEffectsVolume(volume);
-    } else {
-      console.log("World soundEffects not available");
     }
   }
 
   applyMusicVolume(volume) {
-    console.log(
-      `Setting background music volume to: ${Math.round(volume * 100)}%`
-    );
-
     // Speichere Volume-Wert in GUIManager
     this.musicVolume = volume;
 
@@ -868,10 +853,7 @@ class GUIManager {
       window.world.backgroundMusic &&
       typeof window.world.backgroundMusic.setMusicVolume === "function"
     ) {
-      console.log("Applying music volume to World...");
       window.world.backgroundMusic.setMusicVolume(volume);
-    } else {
-      console.log("World backgroundMusic not available");
     }
 
     // Setze Volume für WelcomeScreen Background Music
@@ -880,7 +862,6 @@ class GUIManager {
       window.welcomeScreen.backgroundMusic &&
       typeof window.welcomeScreen.backgroundMusic.setMusicVolume === "function"
     ) {
-      console.log("Applying music volume to WelcomeScreen...");
       window.welcomeScreen.backgroundMusic.setMusicVolume(volume);
     }
   }
@@ -900,7 +881,6 @@ class GUIManager {
       window.welcomeScreen.backgroundMusic &&
       !window.welcomeScreen.musicStarted
     ) {
-      console.log("Starting landing music...");
       window.welcomeScreen.backgroundMusic.playMusic(
         window.welcomeScreen.backgroundMusic.music_menu
       );
@@ -911,7 +891,6 @@ class GUIManager {
   stopLandingMusic() {
     // Stoppe Landing Music
     if (window.welcomeScreen && window.welcomeScreen.backgroundMusic) {
-      console.log("Stopping landing music...");
       window.welcomeScreen.backgroundMusic.stopCurrentMusic();
       window.welcomeScreen.musicStarted = false;
     }
