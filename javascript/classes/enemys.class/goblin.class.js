@@ -133,7 +133,7 @@ class goblin extends MoveableObject {
           break;
         case 3:
           // Springen (wenn Methode vorhanden)
-          if (typeof this.jump === 'function') {
+          if (typeof this.jump === "function") {
             this.jump();
           }
           break;
